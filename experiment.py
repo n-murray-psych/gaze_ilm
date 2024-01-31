@@ -14,6 +14,7 @@ from klibs.KLConstants import TK_MS # to specify milliseconds as the unit of tim
 from klibs.KLEventInterface import TrialEventTicket as ET # to define the events of a trial according to stimulus timings
 from klibs.KLKeyMap import KeyMap # To map keys to responses and have them recorded in the database
 import sdl2 # To generate keyboard button names upon pressing them as a response
+from klibs.KLCommunication import message # To write messages on the screen to participants
 
 # Defining some useful constants
 WHITE = (255, 255, 255)
@@ -23,6 +24,10 @@ GREY = (45, 45, 45)
 class gaze_ilm(klibs.Experiment):
 
     def setup(self):
+        # Block and trial start messages
+        self.block_start_message = message("Press space to begin the experiment", "default", blit_txt = False)
+        self.next_trial_message = message("Press space to continue", "default", blit_txt = False)
+
         # Fixation Cross
         crosslinesize = deg_to_px(.57)
         self.horizontal_cross = kld.Line(length = crosslinesize, color = WHITE, thickness = 3)
@@ -189,8 +194,6 @@ class gaze_ilm(klibs.Experiment):
 
         while self.evm.between("target_offset", "trial_end"): 
             self.exo_trial_pre_cue_stimuli()
-            rt = self.rc.keypress_listener.response(False, True)
-            response = self.rc.keypress_listener.response(True, False)
 
     #######################################################################################
 
@@ -199,7 +202,7 @@ class gaze_ilm(klibs.Experiment):
 
     def setup_response_collector(self):
         self.rc.uses(KeyPressResponse) # Specify to record key presses
-        self.rc.terminate_after = [1700, TK_MS] # End the collection loop after 1700 ms
+        self.rc.terminate_after = [5000, TK_MS] # End the collection loop after 1700 ms
         #self.rc.display_callback = self.resp_callback # Run the self.resp.callback method every loop
         self.rc.flip = True # draw the screen at the end of every loop
         self.rc.keypress_listener.key_map = KeyMap('response', ['z', '/'], ['left', 'right'], [sdl2.SDLK_z, sdl2.SDLK_SLASH]) # Interpret Z-key presses as "left", /-key presses as "right"
@@ -207,7 +210,7 @@ class gaze_ilm(klibs.Experiment):
 
     def trial_prep(self):
 
-        # Define event timings
+        # Define stimulus event timings
         events = []
         events.append([100, "x_cross_on"]) # Add in the x-cross after fixation
         events.append([events[-1][0] + 400, "cue_onset"]) # Add in the cue
@@ -219,14 +222,27 @@ class gaze_ilm(klibs.Experiment):
         for e in events:
             self.evm.register_ticket(ET(e[1], e[0]))
 
+        # If the first trial of the block, display message to start.
+        if P.trial_number == 1:
+            fill()
+            blit(self.block_start_message, registration = 5, location = P.screen_c)
+            flip()
+            any_key()
+
+        #if P.trial_number > 1:
+            #fill()
+            #blit(self.next_trial_message, registration = 5, location = P.screen_c)
+            #flip()
+            #any_key()
+
     def trial(self):
 
         self.exo_cuing_task()
-        
+
         self.rc.collect()
         rt = self.rc.keypress_listener.response(False, True)
         response = self.rc.keypress_listener.response(True, False)
-
+    
         return {
             "block_num": P.block_number,
             "trial_num": P.trial_number,
