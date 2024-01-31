@@ -202,7 +202,7 @@ class gaze_ilm(klibs.Experiment):
 
     def setup_response_collector(self):
         self.rc.uses(KeyPressResponse) # Specify to record key presses
-        self.rc.terminate_after = [5000, TK_MS] # End the collection loop after 1700 ms
+        self.rc.terminate_after = [1700, TK_MS] # End the collection loop after 1700 ms
         #self.rc.display_callback = self.resp_callback # Run the self.resp.callback method every loop
         self.rc.flip = True # draw the screen at the end of every loop
         self.rc.keypress_listener.key_map = KeyMap('response', ['z', '/'], ['left', 'right'], [sdl2.SDLK_z, sdl2.SDLK_SLASH]) # Interpret Z-key presses as "left", /-key presses as "right"
@@ -217,7 +217,7 @@ class gaze_ilm(klibs.Experiment):
         events.append([events[-1][0] + 50, "cue_offset"]) # Remove the cue
         events.append([events[-1][0] + 50, "target_onset"]) # Add in the target
         events.append([events[-1][0] + 50, "target_offset"]) # Remove the target
-        events.append([events[-1][0] + 1700, "trial_end"])
+        events.append([events[-1][0] + 100, "trial_end"]) # Set to 100 so that responses faster than 100 ms are coded as anticipations (-1 values)
 
         for e in events:
             self.evm.register_ticket(ET(e[1], e[0]))
@@ -240,7 +240,11 @@ class gaze_ilm(klibs.Experiment):
         self.exo_cuing_task()
 
         self.rc.collect()
-        rt = self.rc.keypress_listener.response(False, True)
+        if self.rc.keypress_listener.response(False, True) != -1:
+            rt = self.rc.keypress_listener.response(False, True) + 100 # Add 100 since responses coded as less than 100 ms are disregarded as -1 values
+        else:
+            if self.rc.keypress_listener.response(False, True) == -1:
+                rt = self.rc.keypress_listener.response(False, True)
         response = self.rc.keypress_listener.response(True, False)
     
         return {
