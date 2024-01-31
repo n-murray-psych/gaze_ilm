@@ -27,6 +27,9 @@ class gaze_ilm(klibs.Experiment):
         # Block and trial start messages
         self.block_start_message = message("Press space to begin the experiment", "default", blit_txt = False)
         self.next_trial_message = message("Press space to continue", "default", blit_txt = False)
+        next_trial_message_vertical_offset = deg_to_px(3)
+        self.next_trial_message_posiition = (P.screen_c[0], P.screen_c[1]-next_trial_message_vertical_offset)
+
 
         # Fixation Cross
         crosslinesize = deg_to_px(.57)
@@ -229,11 +232,11 @@ class gaze_ilm(klibs.Experiment):
             flip()
             any_key()
 
-        #if P.trial_number > 1:
-            #fill()
-            #blit(self.next_trial_message, registration = 5, location = P.screen_c)
-            #flip()
-            #any_key()
+        if P.trial_number > 1:
+            self.trial_start_stimuli()
+            blit(self.next_trial_message, registration = 5, location = self.next_trial_message_posiition)
+            flip()
+            any_key()
 
     def trial(self):
 
