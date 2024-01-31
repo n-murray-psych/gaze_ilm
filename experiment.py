@@ -12,6 +12,8 @@ from klibs.KLResponseCollectors import KeyPressResponse # To take in key presses
 from klibs.KLResponseListeners import KeypressListener # To record key press responses at the end of a trial
 from klibs.KLConstants import TK_MS # to specify milliseconds as the unit of time to measure response times in
 from klibs.KLEventInterface import TrialEventTicket as ET # to define the events of a trial according to stimulus timings
+from klibs.KLKeyMap import KeyMap # To map keys to responses and have them recorded in the database
+import sdl2 # To generate keyboard button names upon pressing them as a response
 
 # Defining some useful constants
 WHITE = (255, 255, 255)
@@ -185,8 +187,10 @@ class gaze_ilm(klibs.Experiment):
             else:
                 self.exo_trial_right_target_stimuli()
 
-        while self.evm.after("target_offset"):
+        while self.evm.between("target_offset", "trial_end"): 
             self.exo_trial_pre_cue_stimuli()
+            rt = self.rc.keypress_listener.response(False, True)
+            response = self.rc.keypress_listener.response(True, False)
 
     #######################################################################################
 
@@ -198,10 +202,11 @@ class gaze_ilm(klibs.Experiment):
         self.rc.terminate_after = [1700, TK_MS] # End the collection loop after 1700 ms
         #self.rc.display_callback = self.resp_callback # Run the self.resp.callback method every loop
         self.rc.flip = True # draw the screen at the end of every loop
-        self.rc.keypress_listener.key_map = {'z': "left", '/': "right"} # Interpret Z-key presses as "left", /-key presses as "right"
+        self.rc.keypress_listener.key_map = KeyMap('response', ['z', '/'], ['left', 'right'], [sdl2.SDLK_z, sdl2.SDLK_SLASH]) # Interpret Z-key presses as "left", /-key presses as "right"
         self.rc.keypress_listener.interrupts = True # end the collection loop if a valid key is pressed
 
     def trial_prep(self):
+
         # Define event timings
         events = []
         events.append([100, "x_cross_on"]) # Add in the x-cross after fixation
@@ -209,6 +214,7 @@ class gaze_ilm(klibs.Experiment):
         events.append([events[-1][0] + 50, "cue_offset"]) # Remove the cue
         events.append([events[-1][0] + 50, "target_onset"]) # Add in the target
         events.append([events[-1][0] + 50, "target_offset"]) # Remove the target
+        events.append([events[-1][0] + 1700, "trial_end"])
 
         for e in events:
             self.evm.register_ticket(ET(e[1], e[0]))
@@ -216,15 +222,18 @@ class gaze_ilm(klibs.Experiment):
     def trial(self):
 
         self.exo_cuing_task()
-
-        response = self.rc.keypress_listener.response(rt = False) # get the response value
-        rt = self.rc.keypress_listener.response(value = False) # get the reaction time
+        
+        self.rc.collect()
+        rt = self.rc.keypress_listener.response(False, True)
+        response = self.rc.keypress_listener.response(True, False)
 
         return {
-            "rt": rt,
-            "response": response,
             "block_num": P.block_number,
-            "trial_num": P.trial_number
+            "trial_num": P.trial_number,
+            "reaction_time": rt,
+            "response": response,
+            "cue_location": self.cue_location,
+            "target_location": self.target_location
         }
 
     def trial_clean_up(self):
