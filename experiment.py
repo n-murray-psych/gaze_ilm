@@ -11,6 +11,7 @@ from klibs.KLUtilities import deg_to_px # Convert stimulus sizes according to de
 from klibs.KLResponseCollectors import KeyPressResponse # To take in key presses as a response to a trial
 from klibs.KLResponseListeners import KeypressListener # To record key press responses at the end of a trial
 from klibs.KLConstants import TK_MS # to specify milliseconds as the unit of time to measure response times in
+from klibs.KLEventInterface import TrialEventTicket as ET # to define the events of a trial according to stimulus timings
 
 # Defining some useful constants
 WHITE = (255, 255, 255)
@@ -143,9 +144,6 @@ class gaze_ilm(klibs.Experiment):
         blit(self.target, registration = 5, location = self.left_probe_position)
         flip()
 
-        response = self.rc.keypress_listener.response(rt = False) # get the response value
-        rt = self.rc.keypress_listener.response(value = False) # get the reaction time
-
     def exo_trial_right_target_stimuli(self):
         # X-cross
         fill()
@@ -162,8 +160,33 @@ class gaze_ilm(klibs.Experiment):
         blit(self.target, registration = 5, location = self.right_probe_position)
         flip()
 
-        response = self.rc.keypress_listener.response(rt = False) # get the response value
-        rt = self.rc.keypress_listener.response(value = False) # get the reaction time
+    def exo_cuing_task(self):
+        while self.evm.before("x_cross_on"):
+            self.trial_start_stimuli()
+        
+        while(self.evm.between("x_cross_on", "cue_onset")):
+            self.exo_trial_pre_cue_stimuli()
+
+        while self.evm.between("cue_onset", "cue_offset"):
+            if self.cue_location == "left":
+                self.exo_trial_left_cue_stimuli()
+            else:
+                if self.cue_location == "right":
+                    self.exo_trial_right_cue_stimuli()
+                else:
+                    self.exo_trial_neutral_cue_stimuli()
+        
+        while self.evm.between("cue_offset", "target_onset"):
+            self.exo_trial_pre_cue_stimuli()
+
+        while self.evm.between("target_onset", "target_offset"):
+            if self.target_location == "left": 
+                self.exo_trial_left_target_stimuli()
+            else:
+                self.exo_trial_right_target_stimuli()
+
+        while self.evm.after("target_offset"):
+            self.exo_trial_pre_cue_stimuli()
 
     #######################################################################################
 
@@ -179,13 +202,27 @@ class gaze_ilm(klibs.Experiment):
         self.rc.keypress_listener.interrupts = True # end the collection loop if a valid key is pressed
 
     def trial_prep(self):
-        pass
+        # Define event timings
+        events = []
+        events.append([100, "x_cross_on"]) # Add in the x-cross after fixation
+        events.append([events[-1][0] + 400, "cue_onset"]) # Add in the cue
+        events.append([events[-1][0] + 50, "cue_offset"]) # Remove the cue
+        events.append([events[-1][0] + 50, "target_onset"]) # Add in the target
+        events.append([events[-1][0] + 50, "target_offset"]) # Remove the target
+
+        for e in events:
+            self.evm.register_ticket(ET(e[1], e[0]))
 
     def trial(self):
 
-        self.exo_trial_right_target_stimuli()
+        self.exo_cuing_task()
+
+        response = self.rc.keypress_listener.response(rt = False) # get the response value
+        rt = self.rc.keypress_listener.response(value = False) # get the reaction time
 
         return {
+            "rt": rt,
+            "response": response,
             "block_num": P.block_number,
             "trial_num": P.trial_number
         }
