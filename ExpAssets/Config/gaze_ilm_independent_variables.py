@@ -47,6 +47,17 @@ you can also note this using a `(level, count)` tuple as shorthand, e.g. `('vali
 
 """
 
-exp_factors = FactorSet({
+#exp_factors = FactorSet({
     # Insert trial factors here
-})
+#})
+
+from klibs.KLIndependentVariable import IndependentVariableSet # To define independent variables
+
+# Initialize object containing the project's independent variables
+gaze_ilm_independent_variables = IndependentVariableSet()
+
+# Defining independent variables
+gaze_ilm_independent_variables.add.variable("cue_location", str["left", "right", "neutral"])
+gaze_ilm_independent_variables.add.variable("target_location", str["left", "right"])
+
+# 
