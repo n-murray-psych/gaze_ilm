@@ -8,6 +8,9 @@ from klibs.KLGraphics import KLDraw as kld # To draw shapes
 from klibs.KLUserInterface import any_key # So participants can press any key to continue
 from klibs.KLGraphics import fill, blit, flip # To actually make drawn shapes appear on the screen
 from klibs.KLUtilities import deg_to_px # Convert stimulus sizes according to degrees of visual angle
+from klibs.KLResponseCollectors import KeyPressResponse # To take in key presses as a response to a trial
+from klibs.KLResponseListeners import KeypressListener # To record key press responses at the end of a trial
+from klibs.KLConstants import TK_MS # to specify milliseconds as the unit of time to measure response times in
 
 # Defining some useful constants
 WHITE = (255, 255, 255)
@@ -46,6 +49,9 @@ class gaze_ilm(klibs.Experiment):
         targetstroke = [1, (0,0,0)]
         self.target = kld.Circle(diameter = targetsize, stroke = targetstroke, fill = WHITE)
 
+    #######################################################################################
+        # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
+    #######################################################################################
 
     def trial_start_stimuli(self):
         # Fixation cross
@@ -137,6 +143,9 @@ class gaze_ilm(klibs.Experiment):
         blit(self.target, registration = 5, location = self.left_probe_position)
         flip()
 
+        response = self.rc.keypress_listener.response(rt = False) # get the response value
+        rt = self.rc.keypress_listener.response(value = False) # get the reaction time
+
     def exo_trial_right_target_stimuli(self):
         # X-cross
         fill()
@@ -153,13 +162,28 @@ class gaze_ilm(klibs.Experiment):
         blit(self.target, registration = 5, location = self.right_probe_position)
         flip()
 
+        response = self.rc.keypress_listener.response(rt = False) # get the response value
+        rt = self.rc.keypress_listener.response(value = False) # get the reaction time
+
+    #######################################################################################
+
     def block(self):
         pass
+
+    def setup_response_collector(self):
+        self.rc.uses(KeyPressResponse) # Specify to record key presses
+        self.rc.terminate_after = [1700, TK_MS] # End the collection loop after 1700 ms
+        #self.rc.display_callback = self.resp_callback # Run the self.resp.callback method every loop
+        self.rc.flip = True # draw the screen at the end of every loop
+        self.rc.keypress_listener.key_map = {'z': "left", '/': "right"} # Interpret Z-key presses as "left", /-key presses as "right"
+        self.rc.keypress_listener.interrupts = True # end the collection loop if a valid key is pressed
 
     def trial_prep(self):
         pass
 
     def trial(self):
+
+        self.exo_trial_right_target_stimuli()
 
         return {
             "block_num": P.block_number,
