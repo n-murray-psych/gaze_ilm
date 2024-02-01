@@ -56,6 +56,28 @@ class gaze_ilm(klibs.Experiment):
         cue_stroke_thickness = 2
         self.cue = kld.Circle(diameter = probecirclesize, stroke = [cue_stroke_thickness, WHITE], fill = WHITE)
 
+        # Gaze cue stimuli
+        facecirclesize = deg_to_px(1.14) # Double the size of the fixation cross 
+        eyecirclesize = deg_to_px(.29)
+        pupilcirclesize = deg_to_px(.07)
+        noselength = deg_to_px(.09)
+        mouthwidth = deg_to_px(.18)
+        self.facecircle = kld.Circle(diameter = facecirclesize, stroke = [1, (0,0,0)], fill = WHITE)
+        self.eyecircle = kld.Circle(diameter = eyecirclesize, stroke = [1, (0,0,0)], fill = WHITE)
+        self.pupilcircle = kld.Circle(diameter = pupilcirclesize, stroke = [1, (0,0,0)], fill = BLACK)
+        self.nose = kld.Line(length = noselength, color = BLACK, thickness = 3)
+        self.mouth = kld.Line(length = mouthwidth, color = BLACK, thickness = 3, rotation = 90)
+        eye_offset = deg_to_px(.23)
+        self.left_eye_position = (P.screen_c[0]-eye_offset, P.screen_c[1]-eye_offset)
+        self.right_eye_position = (P.screen_c[0]+eye_offset, P.screen_c[1]-eye_offset)
+        mouth_offset = deg_to_px(.26)
+        self.mouth_position = (P.screen_c[0], P.screen_c[1]+mouth_offset)
+        pupilcue_offset = deg_to_px(.14)
+        self.lefteye_left_pupilcue_position = (self.left_eye_position[0]-pupilcue_offset, self.left_eye_position[1])
+        self.lefteye_right_pupilcue_position = (self.left_eye_position[0]+pupilcue_offset, self.left_eye_position[1])
+        self.righteye_left_pupilcue_position = (self.right_eye_position[0]-pupilcue_offset, self.right_eye_position[1])
+        self.righteye_right_pupilcue_position = (self.right_eye_position[0]+pupilcue_offset, self.right_eye_position[1])
+
         # Detection target stimuli
         targetsize = deg_to_px(.23)
         targetstroke = [1, (0,0,0)]
@@ -175,7 +197,7 @@ class gaze_ilm(klibs.Experiment):
         while self.evm.before("x_cross_on"):
             self.trial_start_stimuli()
         
-        while(self.evm.between("x_cross_on", "cue_onset")):
+        while self.evm.between("x_cross_on", "cue_onset"):
             self.exo_trial_pre_cue_stimuli()
 
         while self.evm.between("cue_onset", "cue_offset"):
@@ -192,6 +214,77 @@ class gaze_ilm(klibs.Experiment):
 
         while self.evm.between("target_onset", "target_offset"):
             if self.target_location == "left": 
+                self.exo_trial_left_target_stimuli()
+            else:
+                self.exo_trial_right_target_stimuli()
+
+    #######################################################################################
+    # FUNCTIONS DEFINING GAZE-CUING STIMULI
+    #######################################################################################
+
+    def gaze_trial_pre_cue_stimuli(self):
+        fill()
+        blit(self.facecircle, registration = 5, location = P.screen_c)
+        blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+        blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+        blit(self.nose, registration = 5, location = P.screen_c)
+        blit(self.mouth, registration = 5, location = self.mouth_position)
+        flip()
+
+    def gaze_trial_left_cue_stimuli(self):
+        fill()
+        blit(self.facecircle, registration = 5, location = P.screen_c)
+        blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+        blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+        blit(self.pupilcircle, registration = 5, location = self.lefteye_left_pupilcue_position)
+        blit(self.pupilcircle, registration = 5, location = self.righteye_left_pupilcue_position)
+        blit(self.nose, registration = 5, location = P.screen_c)
+        blit(self.mouth, registration = 5, location = self.mouth_position)
+        flip()
+
+    def gaze_trial_right_cue_stimuli(self):
+        fill()
+        blit(self.facecircle, registration = 5, location = P.screen_c)
+        blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+        blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+        blit(self.pupilcircle, registration = 5, location = self.lefteye_right_pupilcue_position)
+        blit(self.pupilcircle, registration = 5, location = self.righteye_right_pupilcue_position)
+        blit(self.nose, registration = 5, location = P.screen_c)
+        blit(self.mouth, registration = 5, location = self.mouth_position)
+        flip()
+
+    def gaze_trial_neutral_cue_stimuli(self):
+        fill()
+        blit(self.facecircle, registration = 5, location = P.screen_c)
+        blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+        blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+        blit(self.pupilcircle, registration = 5, location = self.left_eye_position)
+        blit(self.pupilcircle, registration = 5, location = self.right_eye_position)
+        blit(self.nose, registration = 5, location = P.screen_c)
+        blit(self.mouth, registration = 5, location = self.mouth_position)
+        flip()
+
+    def gaze_cuing_task(self):
+        while self.evm.before("x_cross_on"):
+            self.trial_start_stimuli()
+        
+        while self.evm.between("x_cross_on", "cue_onset"):
+            self.gaze_trial_pre_cue_stimuli()
+
+        while self.evm.between("cue_onset", "cue_offset"):
+            if self.cue_location == "left":
+                self.gaze_trial_left_cue_stimuli()
+            else:
+                if self.cue_location == "right":
+                    self.gaze_trial_right_cue_stimuli()
+                else:
+                    self.gaze_trial_neutral_cue_stimuli()
+
+        while self.evm.between("cue_offset", "target_onset"):
+            self.gaze_trial_pre_cue_stimuli()
+
+        while self.evm.between("target_onset", "target_offset"):
+            if self.target_location == "left":
                 self.exo_trial_left_target_stimuli()
             else:
                 self.exo_trial_right_target_stimuli()
@@ -241,11 +334,13 @@ class gaze_ilm(klibs.Experiment):
 
         self.exo_cuing_task()
         self.exo_trial_pre_cue_stimuli()
+        #self.gaze_cuing_task()
+        #self.gaze_trial_pre_cue_stimuli()
         flip()
         self.rc.collect()
         rt = self.rc.keypress_listener.response(False, True)
         response = self.rc.keypress_listener.response(True, False)
-    
+
         return {
             "block_num": P.block_number,
             "trial_num": P.trial_number,
