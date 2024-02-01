@@ -344,7 +344,7 @@ class gaze_ilm(klibs.Experiment):
         self.rc.terminate_after = [1700, TK_MS] # End the collection loop after 1700 ms
         #self.rc.display_callback = self.resp_callback # Run the self.resp.callback method every loop
         self.rc.flip = True # draw the screen at the end of every loop
-        self.rc.keypress_listener.key_map = KeyMap('response', ['z', '/'], ['left', 'right'], [sdl2.SDLK_z, sdl2.SDLK_SLASH]) # Interpret Z-key presses as "left", /-key presses as "right"
+        self.rc.keypress_listener.key_map = KeyMap('response', ['z', '/', 'b'], ['left', 'right', 'no motion'], [sdl2.SDLK_z, sdl2.SDLK_SLASH, sdl2.SDLK_b]) # Interpret Z-key presses as "left", /-key presses as "right"
         self.rc.keypress_listener.interrupts = True # end the collection loop if a valid key is pressed
 
     def trial_prep(self):
