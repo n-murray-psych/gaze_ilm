@@ -223,12 +223,19 @@ class gaze_ilm(klibs.Experiment):
     #######################################################################################
 
     def gaze_trial_pre_cue_stimuli(self):
+        # Face without pupils
         fill()
         blit(self.facecircle, registration = 5, location = P.screen_c)
         blit(self.eyecircle, registration = 5, location = self.left_eye_position)
         blit(self.eyecircle, registration = 5, location = self.right_eye_position)
         blit(self.nose, registration = 5, location = P.screen_c)
         blit(self.mouth, registration = 5, location = self.mouth_position)
+
+        # Probes
+        blit(self.probecircle, registration = 5, location = self.left_probe_position)
+        blit(self.probecircle, registration = 5, location = self.right_probe_position)
+        blit(self.innercircle, registration = 5, location = self.left_probe_position)
+        blit(self.innercircle, registration = 5, location = self.right_probe_position)
         flip()
 
     def gaze_trial_left_cue_stimuli(self):
@@ -240,6 +247,12 @@ class gaze_ilm(klibs.Experiment):
         blit(self.pupilcircle, registration = 5, location = self.righteye_left_pupilcue_position)
         blit(self.nose, registration = 5, location = P.screen_c)
         blit(self.mouth, registration = 5, location = self.mouth_position)
+        
+        # Probes
+        blit(self.probecircle, registration = 5, location = self.left_probe_position)
+        blit(self.probecircle, registration = 5, location = self.right_probe_position)
+        blit(self.innercircle, registration = 5, location = self.left_probe_position)
+        blit(self.innercircle, registration = 5, location = self.right_probe_position)
         flip()
 
     def gaze_trial_right_cue_stimuli(self):
@@ -251,6 +264,12 @@ class gaze_ilm(klibs.Experiment):
         blit(self.pupilcircle, registration = 5, location = self.righteye_right_pupilcue_position)
         blit(self.nose, registration = 5, location = P.screen_c)
         blit(self.mouth, registration = 5, location = self.mouth_position)
+        
+        # Probes
+        blit(self.probecircle, registration = 5, location = self.left_probe_position)
+        blit(self.probecircle, registration = 5, location = self.right_probe_position)
+        blit(self.innercircle, registration = 5, location = self.left_probe_position)
+        blit(self.innercircle, registration = 5, location = self.right_probe_position)
         flip()
 
     def gaze_trial_neutral_cue_stimuli(self):
@@ -262,6 +281,12 @@ class gaze_ilm(klibs.Experiment):
         blit(self.pupilcircle, registration = 5, location = self.right_eye_position)
         blit(self.nose, registration = 5, location = P.screen_c)
         blit(self.mouth, registration = 5, location = self.mouth_position)
+        
+        # Probes
+        blit(self.probecircle, registration = 5, location = self.left_probe_position)
+        blit(self.probecircle, registration = 5, location = self.right_probe_position)
+        blit(self.innercircle, registration = 5, location = self.left_probe_position)
+        blit(self.innercircle, registration = 5, location = self.right_probe_position)
         flip()
 
     def gaze_cuing_task(self):
@@ -332,10 +357,10 @@ class gaze_ilm(klibs.Experiment):
 
     def trial(self):
 
-        self.exo_cuing_task()
-        self.exo_trial_pre_cue_stimuli()
-        #self.gaze_cuing_task()
-        #self.gaze_trial_pre_cue_stimuli()
+        #self.exo_cuing_task()
+        #self.exo_trial_pre_cue_stimuli()
+        self.gaze_cuing_task()
+        self.gaze_trial_pre_cue_stimuli()
         flip()
         self.rc.collect()
         rt = self.rc.keypress_listener.response(False, True)
