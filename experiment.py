@@ -46,7 +46,7 @@ class gaze_ilm(klibs.Experiment):
         probecirclesize = deg_to_px(.57)
         innercirclesize = deg_to_px(.4)
         probestroke = [1, (0,0,0)]
-        probe_horizontal_offset = deg_to_px(5)
+        probe_horizontal_offset = deg_to_px(2.5)
         probe_vertical_offset = deg_to_px(1.1)
         self.probecircle = kld.Circle(diameter = probecirclesize, stroke = probestroke, fill = WHITE)
         self.innercircle = kld.Circle(diameter = innercirclesize, stroke = probestroke, fill = GREY)
@@ -83,6 +83,12 @@ class gaze_ilm(klibs.Experiment):
         targetsize = deg_to_px(.23)
         targetstroke = [1, (0,0,0)]
         self.target = kld.Circle(diameter = targetsize, stroke = targetstroke, fill = WHITE)
+
+        # Static line stimuli
+        linelength = deg_to_px(4.43)
+        linewidth = deg_to_px(.57)
+        self.static_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
+        self.line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
 
     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
