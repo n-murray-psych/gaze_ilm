@@ -90,6 +90,20 @@ class gaze_ilm(klibs.Experiment):
         self.static_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
         self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
 
+        # Motion rating scale stimuli
+        ratingscalehypotenuse = deg_to_px(2.37)
+        ratingscalebase = deg_to_px(2.15)
+        ratingscaleheight = deg_to_px(1)
+        self.rating_scale_horizontal_offset = deg_to_px(1.075)
+        self.rating_scale_height_hypotenuse_vertical_offset = deg_to_px(.5)
+        self.rating_scale_base_vertical_offset = deg_to_px(1)
+        self.rating_scale_left_hypotenuse_position = (P.screen_c[0]-self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_height_hypotenuse_vertical_offset)
+        self.rating_scale_right_hypotenuse_position = (P.screen_c[0]+self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_height_hypotenuse_vertical_offset)
+        self.left_height_position = (P.screen_c[0]-self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_height_hypotenuse_vertical_offset)
+        self.right_height_position = (P.screen_c[0]+self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_height_hypotenuse_vertical_offset)
+        self.left_base_position = (P.screen_c[0]-self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_base_vertical_offset)
+        self.right_base_position = (P.screen_c[0]+self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_base_vertical_offset)
+
     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
     #######################################################################################
@@ -337,6 +351,14 @@ class gaze_ilm(klibs.Experiment):
         fill()
         blit(self.static_line, registration = 5, location = self.static_line_position)
         flip()
+
+    #######################################################################################
+        # DRAWING THE MOTION RATING SCALE
+    #######################################################################################
+    
+    def draw_rating_scale(self):
+        fill()
+
 
     #######################################################################################
     # FINALIZING THE BASIC CUING DETECTION TASK
