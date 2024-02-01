@@ -91,18 +91,25 @@ class gaze_ilm(klibs.Experiment):
         self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
 
         # Motion rating scale stimuli
-        ratingscalehypotenuse = deg_to_px(2.37)
-        ratingscalebase = deg_to_px(2.15)
+        ratingscalebaselength = deg_to_px(4.30)
+        ratingscalebaseverticaloffset = deg_to_px(3.5)
+        self.rating_scale_base_position = (P.screen_c[0], P.screen_c[1]+ratingscalebaseverticaloffset)
+        self.rating_scale_base = kld.Line(ratingscalebaselength, color = WHITE, thickness = 3, rotation = 90)
+
         ratingscaleheight = deg_to_px(1)
-        self.rating_scale_horizontal_offset = deg_to_px(1.075)
-        self.rating_scale_height_hypotenuse_vertical_offset = deg_to_px(.5)
-        self.rating_scale_base_vertical_offset = deg_to_px(1)
-        self.rating_scale_left_hypotenuse_position = (P.screen_c[0]-self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_height_hypotenuse_vertical_offset)
-        self.rating_scale_right_hypotenuse_position = (P.screen_c[0]+self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_height_hypotenuse_vertical_offset)
-        self.left_height_position = (P.screen_c[0]-self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_height_hypotenuse_vertical_offset)
-        self.right_height_position = (P.screen_c[0]+self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_height_hypotenuse_vertical_offset)
-        self.left_base_position = (P.screen_c[0]-self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_base_vertical_offset)
-        self.right_base_position = (P.screen_c[0]+self.rating_scale_horizontal_offset, P.screen_c[1]+self.rating_scale_base_vertical_offset)
+        ratingscaleheightverticaloffset = deg_to_px(3)
+        ratingscaleheighthorizontaloffset = deg_to_px(2.15)
+        self.rating_scale_left_height_position = (P.screen_c[0]-ratingscaleheighthorizontaloffset, P.screen_c[1]+ratingscaleheightverticaloffset)
+        self.rating_scale_right_height_position = (P.screen_c[0]+ratingscaleheighthorizontaloffset, P.screen_c[1]+ratingscaleheightverticaloffset)
+        self.rating_scale_height = kld.Line(ratingscaleheight, color = WHITE, thickness = 3)
+
+        ratingscalehypotenuse = deg_to_px(2.37)
+        ratingscalehypotenuseverticaloffset = deg_to_px(3)
+        ratingscalehypotenusehorizontaloffset = deg_to_px(1.075)
+        self.rating_scale_left_hypotenuse_position = (P.screen_c[0]-ratingscalehypotenusehorizontaloffset, P.screen_c[1]+ratingscalehypotenuseverticaloffset)
+        self.rating_scale_left_hypotenuse = kld.Line(ratingscalehypotenuse, color = WHITE, thickness = 3, rotation = -65.056)
+        self.rating_scale_right_hypotenuse_position = (P.screen_c[0]+ratingscalehypotenusehorizontaloffset, P.screen_c[1]+ratingscalehypotenuseverticaloffset)
+        self.rating_scale_right_hypotenuse = kld.Line(ratingscalehypotenuse, color = WHITE, thickness = 3, rotation = 65.056)
 
     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
@@ -358,7 +365,12 @@ class gaze_ilm(klibs.Experiment):
     
     def draw_rating_scale(self):
         fill()
-
+        blit(self.rating_scale_base, registration = 5, location = self.rating_scale_base_position)
+        blit(self.rating_scale_height, registration = 5, location = self.rating_scale_left_height_position)
+        blit(self.rating_scale_height, registration = 5, location = self.rating_scale_right_height_position)
+        blit(self.rating_scale_left_hypotenuse, registration = 5, location = self.rating_scale_left_hypotenuse_position)
+        blit(self.rating_scale_right_hypotenuse, registration = 5, location = self.rating_scale_right_hypotenuse_position)
+        flip()
 
     #######################################################################################
     # FINALIZING THE BASIC CUING DETECTION TASK
