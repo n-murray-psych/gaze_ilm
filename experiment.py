@@ -315,6 +315,19 @@ class gaze_ilm(klibs.Experiment):
                 self.exo_trial_right_target_stimuli()
 
     #######################################################################################
+    # FINALIZING THE BASIC CUING TASK
+    #######################################################################################
+    
+    def detection_cuing_task(self):
+        if self.cuing_task_type == "gaze":
+            self.gaze_cuing_task()
+            self.gaze_trial_pre_cue_stimuli()
+        else:
+            if self.cuing_task_type == "exogenous":
+                self.exo_cuing_task()
+                self.exo_trial_pre_cue_stimuli()
+
+    #######################################################################################
 
     def block(self):
         pass
@@ -357,22 +370,20 @@ class gaze_ilm(klibs.Experiment):
 
     def trial(self):
 
-        #self.exo_cuing_task()
-        #self.exo_trial_pre_cue_stimuli()
-        self.gaze_cuing_task()
-        self.gaze_trial_pre_cue_stimuli()
+        self.detection_cuing_task()
         flip()
         self.rc.collect()
         rt = self.rc.keypress_listener.response(False, True)
         response = self.rc.keypress_listener.response(True, False)
 
         return {
+            "cue_type": self.cuing_task_type,
+            "cue_location": self.cue_location,
+            "target_location": self.target_location,
+            "response": response,
             "block_num": P.block_number,
             "trial_num": P.trial_number,
-            "reaction_time": rt,
-            "response": response,
-            "cue_location": self.cue_location,
-            "target_location": self.target_location
+            "reaction_time": rt
         }
 
     def trial_clean_up(self):

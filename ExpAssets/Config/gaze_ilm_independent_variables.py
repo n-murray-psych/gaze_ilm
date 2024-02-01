@@ -48,6 +48,7 @@ you can also note this using a `(level, count)` tuple as shorthand, e.g. `('vali
 """
 
 exp_factors = FactorSet({
+    "cuing_task_type": ["gaze", "exogenous"],
     "cue_location": ["left", "right", "neutral"],
     "target_location": ["left", "right"]
 })
