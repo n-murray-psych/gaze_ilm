@@ -28,6 +28,7 @@ class gaze_ilm(klibs.Experiment):
         self.block_start_message = message("Press space to begin the experiment", "default", blit_txt = False)
         block_start_message_vertical_offset = deg_to_px(3)
         self.block_start_message_position = (P.screen_c[0], P.screen_c[1]-block_start_message_vertical_offset)
+        self.next_block_message = message("You have completed a block of trials! Press space to start the next block", "default", blit_txt = False)
         self.next_trial_message = message("Press space to continue", "default", blit_txt = False)
         next_trial_message_vertical_offset = deg_to_px(3)
         self.next_trial_message_posiition = (P.screen_c[0], P.screen_c[1]-next_trial_message_vertical_offset)
@@ -315,7 +316,7 @@ class gaze_ilm(klibs.Experiment):
                 self.exo_trial_right_target_stimuli()
 
     #######################################################################################
-    # FINALIZING THE BASIC CUING TASK
+    # FINALIZING THE BASIC CUING DETECTION TASK
     #######################################################################################
     
     def detection_cuing_task(self):
@@ -354,10 +355,17 @@ class gaze_ilm(klibs.Experiment):
             self.evm.register_ticket(ET(e[1], e[0]))
 
         # If the first trial of the block, display message to start.
-        if P.trial_number == 1:
+        if P.block_number == 1 and P.trial_number == 1:
             self.trial_start_stimuli()
             flip()
             blit(self.block_start_message, registration = 5, location = self.block_start_message_position)
+            flip()
+            any_key()
+
+        if P.block_number > 1 and P.trial_number == 1:
+            self.trial_start_stimuli()
+            flip()
+            blit(self.next_block_message, registration = 5, location = self.block_start_message_position)
             flip()
             any_key()
 
@@ -382,7 +390,7 @@ class gaze_ilm(klibs.Experiment):
             "target_location": self.target_location,
             "response": response,
             "block_num": P.block_number,
-            "trial_num": P.trial_number,
+            "trial_num": P.trial_number * P.block_number,
             "reaction_time": rt
         }
 
