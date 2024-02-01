@@ -92,9 +92,13 @@ class gaze_ilm(klibs.Experiment):
 
         # Motion rating scale stimuli
         ratingscalebaselength = deg_to_px(4.30)
-        ratingscalebaseverticaloffset = deg_to_px(3.5)
+        ratingscalebaseheight = deg_to_px(.5)
+        ratingscalebaseverticaloffset = deg_to_px(3.75)
         self.rating_scale_base_position = (P.screen_c[0], P.screen_c[1]+ratingscalebaseverticaloffset)
-        self.rating_scale_base = kld.Line(ratingscalebaselength, color = WHITE, thickness = 3, rotation = 90)
+        self.rating_scale_base = kld.Rectangle(width = ratingscalebaselength, height = ratingscalebaseheight, stroke = [1, (0,0,0)], fill = WHITE)
+        ratingscalemidpoint = deg_to_px(.5)
+        self.rating_scale_midpoint = kld.Line(length = ratingscalemidpoint, color = BLACK, thickness = 3)
+        #self.rating_scale_base = kld.Line(ratingscalebaselength, color = WHITE, thickness = 3, rotation = 90)
 
         ratingscaleheight = deg_to_px(1)
         ratingscaleheightverticaloffset = deg_to_px(3)
@@ -366,6 +370,7 @@ class gaze_ilm(klibs.Experiment):
     def draw_rating_scale(self):
         fill()
         blit(self.rating_scale_base, registration = 5, location = self.rating_scale_base_position)
+        blit(self.rating_scale_midpoint, registration = 5, location = self.rating_scale_base_position)
         blit(self.rating_scale_height, registration = 5, location = self.rating_scale_left_height_position)
         blit(self.rating_scale_height, registration = 5, location = self.rating_scale_right_height_position)
         blit(self.rating_scale_left_hypotenuse, registration = 5, location = self.rating_scale_left_hypotenuse_position)
@@ -414,6 +419,8 @@ class gaze_ilm(klibs.Experiment):
         # If the first trial of the block, display message to start.
         if P.block_number == 1 and P.trial_number == 1:
             self.trial_start_stimuli()
+            flip()
+            self.draw_rating_scale()
             flip()
             blit(self.block_start_message, registration = 5, location = self.block_start_message_position)
             flip()
