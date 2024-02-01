@@ -88,7 +88,7 @@ class gaze_ilm(klibs.Experiment):
         linelength = deg_to_px(4.43)
         linewidth = deg_to_px(.57)
         self.static_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
-        self.line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
+        self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
 
     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
@@ -220,10 +220,14 @@ class gaze_ilm(klibs.Experiment):
             self.exo_trial_pre_cue_stimuli()
 
         while self.evm.between("target_onset", "target_offset"):
-            if self.target_location == "left": 
+            if self.target_location == "left" and self.task_requirement == "detection":
                 self.exo_trial_left_target_stimuli()
             else:
-                self.exo_trial_right_target_stimuli()
+                if self.target_location == "right" and self.task_requirement == "detection":
+                    self.exo_trial_right_target_stimuli()
+                else:
+                    if self.task_requirement == "line motion rating":
+                        self.draw_static_line()
 
     #######################################################################################
     # FUNCTIONS DEFINING GAZE-CUING STIMULI
@@ -316,10 +320,23 @@ class gaze_ilm(klibs.Experiment):
             self.gaze_trial_pre_cue_stimuli()
 
         while self.evm.between("target_onset", "target_offset"):
-            if self.target_location == "left":
+            if self.target_location == "left" and self.task_requirement == "detection":
                 self.exo_trial_left_target_stimuli()
             else:
-                self.exo_trial_right_target_stimuli()
+                if self.target_location == "right" and self.task_requirement == "detection":
+                    self.exo_trial_right_target_stimuli()
+                else:
+                    if self.task_requirement == "line motion rating":
+                        self.draw_static_line()
+
+    #######################################################################################
+        # DRAWING THE LINES: NO MOTION, REAL LEFTWARD MOTION, AND REAL RIGHTWARD MOTION
+    #######################################################################################
+                
+    def draw_static_line(self):
+        fill()
+        blit(self.static_line, registration = 5, location = self.static_line_position)
+        flip()
 
     #######################################################################################
     # FINALIZING THE BASIC CUING DETECTION TASK
@@ -383,7 +400,6 @@ class gaze_ilm(klibs.Experiment):
             any_key()
 
     def trial(self):
-
         self.detection_cuing_task()
         flip()
         self.rc.collect()
@@ -392,6 +408,7 @@ class gaze_ilm(klibs.Experiment):
 
         return {
             "cue_type": self.cuing_task_type,
+            "task_requirement": self.task_requirement,
             "cue_location": self.cue_location,
             "target_location": self.target_location,
             "response": response,
