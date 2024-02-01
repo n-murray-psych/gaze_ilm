@@ -195,9 +195,6 @@ class gaze_ilm(klibs.Experiment):
             else:
                 self.exo_trial_right_target_stimuli()
 
-        while self.evm.between("target_offset", "trial_end"): 
-            self.exo_trial_pre_cue_stimuli()
-
     #######################################################################################
 
     def block(self):
@@ -220,7 +217,6 @@ class gaze_ilm(klibs.Experiment):
         events.append([events[-1][0] + 50, "cue_offset"]) # Remove the cue
         events.append([events[-1][0] + 50, "target_onset"]) # Add in the target
         events.append([events[-1][0] + 50, "target_offset"]) # Remove the target
-        events.append([events[-1][0] + 100, "trial_end"]) # Set to 100 so that responses faster than 100 ms are coded as anticipations (-1 values)
 
         for e in events:
             self.evm.register_ticket(ET(e[1], e[0]))
@@ -234,6 +230,7 @@ class gaze_ilm(klibs.Experiment):
 
         if P.trial_number > 1:
             self.trial_start_stimuli()
+            flip()
             blit(self.next_trial_message, registration = 5, location = self.next_trial_message_posiition)
             flip()
             any_key()
@@ -241,13 +238,10 @@ class gaze_ilm(klibs.Experiment):
     def trial(self):
 
         self.exo_cuing_task()
-
+        self.exo_trial_pre_cue_stimuli()
+        flip()
         self.rc.collect()
-        if self.rc.keypress_listener.response(False, True) != -1:
-            rt = self.rc.keypress_listener.response(False, True) + 100 # Add 100 since responses coded as less than 100 ms are disregarded as -1 values
-        else:
-            if self.rc.keypress_listener.response(False, True) == -1:
-                rt = self.rc.keypress_listener.response(False, True)
+        rt = self.rc.keypress_listener.response(False, True)
         response = self.rc.keypress_listener.response(True, False)
     
         return {
