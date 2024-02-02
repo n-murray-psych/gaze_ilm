@@ -5,7 +5,7 @@ __author__ = "Nicholas Murray"
 import klibs
 from klibs import P
 from klibs.KLGraphics import KLDraw as kld # To draw shapes
-from klibs.KLUserInterface import any_key # So participants can press any key to continue
+from klibs.KLUserInterface import any_key, mouse_pos # So participants can press any key to continue; convert mouse presses to mouse position coordinates
 from klibs.KLGraphics import fill, blit, flip # To actually make drawn shapes appear on the screen
 from klibs.KLUtilities import deg_to_px # Convert stimulus sizes according to degrees of visual angle
 from klibs.KLResponseCollectors import KeyPressResponse # To take in key presses as a response to a trial
@@ -15,7 +15,7 @@ from klibs.KLEventInterface import TrialEventTicket as ET # to define the events
 from klibs.KLKeyMap import KeyMap # To map keys to responses and have them recorded in the database
 import sdl2 # To generate keyboard button names upon pressing them as a response
 from klibs.KLCommunication import message # To write messages on the screen to participants
-from klibs.KLBoundary import RectangleBoundary # To create a boundary within which participants can rate line motion
+from klibs.KLBoundary import RectangleBoundary, BoundaryInspector # To create a boundary within which participants can rate line motion
 
 # Defining some useful constants
 WHITE = (255, 255, 255)
@@ -120,9 +120,8 @@ class gaze_ilm(klibs.Experiment):
         ratingscalebasex2 = self.rating_scale_base_position[0]+(.5*ratingscalebaselength)
         ratingscalebasey1 = self.rating_scale_base_position[1]+(.5*ratingscalebaseheight)
         ratingscalebasey2 = self.rating_scale_base_position[1]-(.5*ratingscalebaseheight)
-        ratingscalebasebounds = [(ratingscalebasex1, ratingscalebasey1), (ratingscalebasex2, ratingscalebasey2)]
-
-
+        ratingscalebounds = RectangleBoundary(mouse_pos(), (ratingscalebasex1, ratingscalebasey1), (ratingscalebasex2, ratingscalebasey2))
+        
     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
     #######################################################################################
