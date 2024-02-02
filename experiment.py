@@ -10,11 +10,12 @@ from klibs.KLGraphics import fill, blit, flip # To actually make drawn shapes ap
 from klibs.KLUtilities import deg_to_px # Convert stimulus sizes according to degrees of visual angle
 from klibs.KLResponseCollectors import KeyPressResponse # To take in key presses as a response to a trial
 from klibs.KLResponseListeners import KeypressListener # To record key press responses at the end of a trial
-from klibs.KLConstants import TK_MS # to specify milliseconds as the unit of time to measure response times in
+from klibs.KLConstants import TK_MS, RECT_BOUNDARY # to specify milliseconds as the unit of time to measure response times in, and the rectangle boundary for the line motion rating scale
 from klibs.KLEventInterface import TrialEventTicket as ET # to define the events of a trial according to stimulus timings
 from klibs.KLKeyMap import KeyMap # To map keys to responses and have them recorded in the database
 import sdl2 # To generate keyboard button names upon pressing them as a response
 from klibs.KLCommunication import message # To write messages on the screen to participants
+from klibs.KLBoundary import RectangleBoundary # To create a boundary within which participants can rate line motion
 
 # Defining some useful constants
 WHITE = (255, 255, 255)
@@ -114,6 +115,13 @@ class gaze_ilm(klibs.Experiment):
         self.rating_scale_left_hypotenuse = kld.Line(ratingscalehypotenuse, color = WHITE, thickness = 3, rotation = -65.056)
         self.rating_scale_right_hypotenuse_position = (P.screen_c[0]+ratingscalehypotenusehorizontaloffset, P.screen_c[1]+ratingscalehypotenuseverticaloffset)
         self.rating_scale_right_hypotenuse = kld.Line(ratingscalehypotenuse, color = WHITE, thickness = 3, rotation = 65.056)
+
+        ratingscalebasex1 = self.rating_scale_base_position[0]-(.5*ratingscalebaselength)
+        ratingscalebasex2 = self.rating_scale_base_position[0]+(.5*ratingscalebaselength)
+        ratingscalebasey1 = self.rating_scale_base_position[1]+(.5*ratingscalebaseheight)
+        ratingscalebasey2 = self.rating_scale_base_position[1]-(.5*ratingscalebaseheight)
+        ratingscalebasebounds = [(ratingscalebasex1, ratingscalebasey1), (ratingscalebasex2, ratingscalebasey2)]
+
 
     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
