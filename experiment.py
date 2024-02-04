@@ -94,38 +94,7 @@ class gaze_ilm(klibs.Experiment):
         self.static_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
         self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
 
-        # Motion rating scale stimuli
-        ratingscalebaselength = deg_to_px(4.30)
-        ratingscalebaseheight = deg_to_px(.5)
-        ratingscalebaseverticaloffset = deg_to_px(3.75)
-        self.rating_scale_base_position = (P.screen_c[0], P.screen_c[1]+ratingscalebaseverticaloffset)
-        self.rating_scale_base = kld.Rectangle(width = ratingscalebaselength, height = ratingscalebaseheight, stroke = [1, (0,0,0)], fill = WHITE)
-        ratingscalemidpoint = deg_to_px(.5)
-        self.rating_scale_midpoint = kld.Line(length = ratingscalemidpoint, color = BLACK, thickness = 3)
-        #self.rating_scale_base = kld.Line(ratingscalebaselength, color = WHITE, thickness = 3, rotation = 90)
-
-        ratingscaleheight = deg_to_px(1)
-        ratingscaleheightverticaloffset = deg_to_px(3)
-        ratingscaleheighthorizontaloffset = deg_to_px(2.15)
-        self.rating_scale_left_height_position = (P.screen_c[0]-ratingscaleheighthorizontaloffset, P.screen_c[1]+ratingscaleheightverticaloffset)
-        self.rating_scale_right_height_position = (P.screen_c[0]+ratingscaleheighthorizontaloffset, P.screen_c[1]+ratingscaleheightverticaloffset)
-        self.rating_scale_height = kld.Line(ratingscaleheight, color = WHITE, thickness = 3)
-
-        ratingscalehypotenuse = deg_to_px(2.37)
-        ratingscalehypotenuseverticaloffset = deg_to_px(3)
-        ratingscalehypotenusehorizontaloffset = deg_to_px(1.075)
-        self.rating_scale_left_hypotenuse_position = (P.screen_c[0]-ratingscalehypotenusehorizontaloffset, P.screen_c[1]+ratingscalehypotenuseverticaloffset)
-        self.rating_scale_left_hypotenuse = kld.Line(ratingscalehypotenuse, color = WHITE, thickness = 3, rotation = -65.056)
-        self.rating_scale_right_hypotenuse_position = (P.screen_c[0]+ratingscalehypotenusehorizontaloffset, P.screen_c[1]+ratingscalehypotenuseverticaloffset)
-        self.rating_scale_right_hypotenuse = kld.Line(ratingscalehypotenuse, color = WHITE, thickness = 3, rotation = 65.056)
-
-        ratingscalebasex1 = self.rating_scale_base_position[0]-(.5*ratingscalebaselength)
-        ratingscalebasex2 = self.rating_scale_base_position[0]+(.5*ratingscalebaselength)
-        ratingscalebasey1 = self.rating_scale_base_position[1]+(.5*ratingscalebaseheight)
-        ratingscalebasey2 = self.rating_scale_base_position[1]-(.5*ratingscalebaseheight)
-        ratingscalebounds = RectangleBoundary(mouse_pos(), (ratingscalebasex1, ratingscalebasey1), (ratingscalebasex2, ratingscalebasey2))
-        
-        # Response scale from Austin
+        # Line motion rating scale stimuli
         scale_vertical_offset = deg_to_px(1.1)
         scale_w = deg_to_px(4.30)
         scale_h = deg_to_px(1)
@@ -415,20 +384,6 @@ class gaze_ilm(klibs.Experiment):
         flip()
 
     #######################################################################################
-        # DRAWING THE MOTION RATING SCALE
-    #######################################################################################
-    
-    def draw_rating_scale(self):
-        fill()
-        blit(self.rating_scale_base, registration = 5, location = self.rating_scale_base_position)
-        blit(self.rating_scale_midpoint, registration = 5, location = self.rating_scale_base_position)
-        blit(self.rating_scale_height, registration = 5, location = self.rating_scale_left_height_position)
-        blit(self.rating_scale_height, registration = 5, location = self.rating_scale_right_height_position)
-        blit(self.rating_scale_left_hypotenuse, registration = 5, location = self.rating_scale_left_hypotenuse_position)
-        blit(self.rating_scale_right_hypotenuse, registration = 5, location = self.rating_scale_right_hypotenuse_position)
-        flip()
-
-    #######################################################################################
     # FINALIZING THE BASIC CUING DETECTION TASK
     #######################################################################################
     
@@ -470,8 +425,6 @@ class gaze_ilm(klibs.Experiment):
         # If the first trial of the block, display message to start.
         if P.block_number == 1 and P.trial_number == 1:
             self.trial_start_stimuli()
-            flip()
-            self.draw_rating_scale()
             flip()
             blit(self.block_start_message, registration = 5, location = self.block_start_message_position)
             flip()
