@@ -95,8 +95,8 @@ class gaze_ilm(klibs.Experiment):
         self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
 
         # Real line motion stimuli
-        linelength_shorterline = deg_to_px(.55)
-        linelength_longerline = deg_to_px(.58)
+        linelength_shorterline = deg_to_px(.56)
+        linelength_longerline = deg_to_px(.59)
         lineoffset_shorterlines = deg_to_px(2.485)
         self.shorter_moving_line = kld.Line(length = linelength_shorterline, color = WHITE, thickness = 3, rotation = 90)
         self.longer_moving_line = kld.Line(length = linelength_longerline, color = WHITE, thickness = 3, rotation = 90)
@@ -394,6 +394,18 @@ class gaze_ilm(klibs.Experiment):
     #######################################################################################
                 
     def draw_static_line(self):
+
+        def static_line():
+            # Static line composed of small lines
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+            blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+
         if self.cuing_task_type == "gaze":
             # Face without pupils
             fill()
@@ -411,17 +423,7 @@ class gaze_ilm(klibs.Experiment):
 
             # Static line
             #blit(self.static_line, registration = 5, location = self.static_line_position)
-
-            # Static line composed of small lines
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-            blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-
+            static_line()
             flip()
         else:
             if self.cuing_task_type == "exogenous":
@@ -440,15 +442,7 @@ class gaze_ilm(klibs.Experiment):
                 #blit(self.static_line, registration = 5, location = self.static_line_position)
 
                 # Static line composed of small lines
-                blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-
+                static_line()
 
                 flip()
 
