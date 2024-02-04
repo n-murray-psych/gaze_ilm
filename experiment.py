@@ -135,6 +135,20 @@ class gaze_ilm(klibs.Experiment):
         self.scale_mark = kld.Rectangle(int(scale_h * 0.1), scale_h, fill=BLACK)
         self.scale_bounds = bounds_from_blit(self.scale, self.scale_loc)
 
+        left_right_motion_rating_message_horizontal_offset = deg_to_px(3)
+        left_right_motion_rating_message_vertical_offset = deg_to_px(1.1)
+        no_motion_rating_message_vertical_offset = deg_to_px(2.2)
+        self.motion_rating_message = message("Rate the how much and what direction the line may have moved:")
+        self.motion_rating_message_position = (P.screen_c[0], P.screen_c[1])
+        self.left_motion_rating_message = message("Left")
+        self.left_motion_rating_message_position = (P.screen_c[0]-left_right_motion_rating_message_horizontal_offset, P.screen_c[1]+left_right_motion_rating_message_vertical_offset)
+        self.right_motion_rating_message = message("Right")
+        self.right_motion_rating_message_position = (P.screen_c[0]+left_right_motion_rating_message_horizontal_offset, P.screen_c[1]+left_right_motion_rating_message_vertical_offset)
+        self.no_motion_rating_message = message("No motion")
+        self.no_motion_rating_message_position = (P.screen_c[0], P.screen_c[1]+no_motion_rating_message_vertical_offset)
+        no_motion_line_length = deg_to_px(1.5)
+        self.no_motion_rating_line = kld.Line(length = no_motion_line_length, color = BLACK, thickness = 3)
+
         self.scale_listener = ScaleListener(
             self.scale_bounds, loop_callback=self.scale_callback
         )
@@ -489,6 +503,7 @@ class gaze_ilm(klibs.Experiment):
         else:
             fill()
             blit(self.scale, 5, self.scale_loc)
+            blit(self.motion_rating_message, registration = 5, location = self.motion_rating_message_position)
             flip()
             response, rt = self.scale_listener.collect()
             print(response, rt)
@@ -514,6 +529,10 @@ class gaze_ilm(klibs.Experiment):
         mouse_x, mouse_y = mouse_pos()
         scale_mid_y = self.scale_bounds.center[1]
         fill()
+        blit(self.motion_rating_message, registration = 5, location = self.motion_rating_message_position)
+        blit(self.left_motion_rating_message, registration = 5, location = self.left_motion_rating_message_position)
+        blit(self.right_motion_rating_message, registration = 5, location = self.right_motion_rating_message_position)
+        blit(self.no_motion_rating_message, registration = 5, location = self.no_motion_rating_message_position)
         blit(self.scale, 5, self.scale_loc)
         if (mouse_x, mouse_y) in self.scale_bounds:
             blit(self.scale_mark, 5, (mouse_x, scale_mid_y))
