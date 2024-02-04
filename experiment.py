@@ -128,7 +128,7 @@ class gaze_ilm(klibs.Experiment):
         # Response scale from Austin
         scale_w = int(P.screen_x * 0.8)
         scale_h = int(scale_w * 0.2)
-        scale_stroke = [int(scale_h * 0.1), BLACK, klibs.STROKE_INNER]
+        scale_stroke = [int(scale_h * 0.1), WHITE, klibs.STROKE_INNER]
         self.scale_loc = (P.screen_c[0], int(P.screen_y * 0.7))
         
         self.scale = kld.Rectangle(scale_w, scale_h, stroke=scale_stroke)
@@ -513,14 +513,8 @@ class gaze_ilm(klibs.Experiment):
     def scale_callback(self):
         mouse_x, mouse_y = mouse_pos()
         scale_mid_y = self.scale_bounds.center[1]
-        if self.cuing_task_type == "gaze":
-            self.gaze_trial_pre_cue_stimuli()
-            fill()
-            blit(self.scale, 5, self.scale_loc)
-        else:
-            self.exo_trial_pre_cue_stimuli()
-            fill()
-            blit(self.scale, 5, self.scale_loc)
+        fill()
+        blit(self.scale, 5, self.scale_loc)
         if (mouse_x, mouse_y) in self.scale_bounds:
             blit(self.scale_mark, 5, (mouse_x, scale_mid_y))
         flip()
