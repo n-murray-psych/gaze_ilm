@@ -94,6 +94,21 @@ class gaze_ilm(klibs.Experiment):
         self.static_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
         self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
 
+        # Real line motion stimuli
+        linelength_shorterline = deg_to_px(.55)
+        linelength_longerline = deg_to_px(.58)
+        lineoffset_shorterlines = deg_to_px(2.485)
+        self.shorter_moving_line = kld.Line(length = linelength_shorterline, color = WHITE, thickness = 3, rotation = 90)
+        self.longer_moving_line = kld.Line(length = linelength_longerline, color = WHITE, thickness = 3, rotation = 90)
+        self.real_line_1_position = (P.screen_c[0]-deg_to_px(1.94), P.screen_c[1]-probe_vertical_offset)
+        self.real_line_2_position = (P.screen_c[0]-deg_to_px(1.39), P.screen_c[1]-probe_vertical_offset)
+        self.real_line_3_position = (P.screen_c[0]-deg_to_px(.84), P.screen_c[1]-probe_vertical_offset)
+        self.real_line_4_position = (P.screen_c[0]-deg_to_px(.29), P.screen_c[1]-probe_vertical_offset)
+        self.real_line_5_position = (P.screen_c[0]+deg_to_px(.26), P.screen_c[1]-probe_vertical_offset)
+        self.real_line_6_position = (P.screen_c[0]+deg_to_px(.81), P.screen_c[1]-probe_vertical_offset)
+        self.real_line_7_position = (P.screen_c[0]+deg_to_px(1.36), P.screen_c[1]-probe_vertical_offset)
+        self.real_line_8_position = (P.screen_c[0]+deg_to_px(1.91), P.screen_c[1]-probe_vertical_offset)
+
         # Line motion rating scale stimuli
         scale_vertical_offset = deg_to_px(1.1)
         scale_w = deg_to_px(4.30)
@@ -395,7 +410,17 @@ class gaze_ilm(klibs.Experiment):
             blit(self.innercircle, registration = 5, location = self.right_probe_position)
 
             # Static line
-            blit(self.static_line, registration = 5, location = self.static_line_position)
+            #blit(self.static_line, registration = 5, location = self.static_line_position)
+
+            # Static line composed of small lines
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+            blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+            blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
 
             flip()
         else:
@@ -412,7 +437,18 @@ class gaze_ilm(klibs.Experiment):
                 blit(self.innercircle, registration = 5, location = self.right_probe_position)
                 
                 # Static line
-                blit(self.static_line, registration = 5, location = self.static_line_position)
+                #blit(self.static_line, registration = 5, location = self.static_line_position)
+
+                # Static line composed of small lines
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+                blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+
 
                 flip()
 
@@ -456,7 +492,7 @@ class gaze_ilm(klibs.Experiment):
         else:
             if self.task_requirement == "line motion rating":
                 events.append([events[-1][0] + 1000, "target_offset"]) # Remove the line in line motion trials
-
+                
         for e in events:
             self.evm.register_ticket(ET(e[1], e[0]))
 
