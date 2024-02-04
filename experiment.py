@@ -157,17 +157,31 @@ class gaze_ilm(klibs.Experiment):
         flip()
 
     def exo_trial_pre_cue_stimuli(self):
-        # X-cross
-        fill()
-        blit(self.x_cross1, registration = 5, location = P.screen_c)
-        blit(self.x_cross2, registration = 5, location = P.screen_c)
 
-        # Probes
-        blit(self.probecircle, registration = 5, location = self.left_probe_position)
-        blit(self.probecircle, registration = 5, location = self.right_probe_position)
-        blit(self.innercircle, registration = 5, location = self.left_probe_position)
-        blit(self.innercircle, registration = 5, location = self.right_probe_position)
-        flip()
+        if self.task_requirement == "detection":
+            # X-cross
+            fill()
+            blit(self.x_cross1, registration = 5, location = P.screen_c)
+            blit(self.x_cross2, registration = 5, location = P.screen_c)
+
+            # Probes
+            blit(self.probecircle, registration = 5, location = self.left_probe_position)
+            blit(self.probecircle, registration = 5, location = self.right_probe_position)
+            blit(self.innercircle, registration = 5, location = self.left_probe_position)
+            blit(self.innercircle, registration = 5, location = self.right_probe_position)
+            flip()
+        else:
+            # X-cross
+            fill()
+            blit(self.x_cross1, registration = 5, location = P.screen_c)
+            blit(self.x_cross2, registration = 5, location = P.screen_c)
+
+            # Probes
+            blit(self.probecircle, registration = 5, location = self.left_probe_position)
+            blit(self.probecircle, registration = 5, location = self.right_probe_position)
+            blit(self.innercircle, registration = 5, location = self.left_probe_position)
+            blit(self.innercircle, registration = 5, location = self.right_probe_position)
+            flip()
 
     def exo_trial_left_cue_stimuli(self):
         # X-cross
@@ -476,8 +490,8 @@ class gaze_ilm(klibs.Experiment):
             fill()
             blit(self.scale, 5, self.scale_loc)
             flip()
-            resp, rt = self.scale_listener.collect()
-            print(resp, rt)
+            response, rt = self.scale_listener.collect()
+            print(response, rt)
 
         return {
             "cue_type": self.cuing_task_type,
@@ -499,8 +513,14 @@ class gaze_ilm(klibs.Experiment):
     def scale_callback(self):
         mouse_x, mouse_y = mouse_pos()
         scale_mid_y = self.scale_bounds.center[1]
-        fill()
-        blit(self.scale, 5, self.scale_loc)
+        if self.cuing_task_type == "gaze":
+            self.gaze_trial_pre_cue_stimuli()
+            fill()
+            blit(self.scale, 5, self.scale_loc)
+        else:
+            self.exo_trial_pre_cue_stimuli()
+            fill()
+            blit(self.scale, 5, self.scale_loc)
         if (mouse_x, mouse_y) in self.scale_bounds:
             blit(self.scale_mark, 5, (mouse_x, scale_mid_y))
         flip()
