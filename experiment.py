@@ -126,11 +126,11 @@ class gaze_ilm(klibs.Experiment):
         ratingscalebounds = RectangleBoundary(mouse_pos(), (ratingscalebasex1, ratingscalebasey1), (ratingscalebasex2, ratingscalebasey2))
         
         # Response scale from Austin
-        scale_w = int(P.screen_x * 0.8)
-        scale_h = int(scale_w * 0.2)
+        scale_vertical_offset = deg_to_px(1.1)
+        scale_w = deg_to_px(4.30)
+        scale_h = deg_to_px(1)
         scale_stroke = [int(scale_h * 0.1), WHITE, klibs.STROKE_INNER]
-        self.scale_loc = (P.screen_c[0], int(P.screen_y * 0.7))
-        
+        self.scale_loc = (P.screen_c[0], P.screen_c[1] + scale_vertical_offset)
         self.scale = kld.Rectangle(scale_w, scale_h, stroke=scale_stroke)
         self.scale_mark = kld.Rectangle(int(scale_h * 0.1), scale_h, fill=BLACK)
         self.scale_bounds = bounds_from_blit(self.scale, self.scale_loc)
