@@ -379,9 +379,43 @@ class gaze_ilm(klibs.Experiment):
     #######################################################################################
                 
     def draw_static_line(self):
-        fill()
-        blit(self.static_line, registration = 5, location = self.static_line_position)
-        flip()
+        if self.cuing_task_type == "gaze":
+            # Face without pupils
+            fill()
+            blit(self.facecircle, registration = 5, location = P.screen_c)
+            blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+            blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+            blit(self.nose, registration = 5, location = P.screen_c)
+            blit(self.mouth, registration = 5, location = self.mouth_position)
+
+            # Probes
+            blit(self.probecircle, registration = 5, location = self.left_probe_position)
+            blit(self.probecircle, registration = 5, location = self.right_probe_position)
+            blit(self.innercircle, registration = 5, location = self.left_probe_position)
+            blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
+            # Static line
+            blit(self.static_line, registration = 5, location = self.static_line_position)
+
+            flip()
+        else:
+            if self.cuing_task_type == "exogenous":
+                # X-cross
+                fill()
+                blit(self.x_cross1, registration = 5, location = P.screen_c)
+                blit(self.x_cross2, registration = 5, location = P.screen_c)
+
+                # Probes
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+                
+                # Static line
+                blit(self.static_line, registration = 5, location = self.static_line_position)
+
+                flip()
+
 
     #######################################################################################
     # FINALIZING THE BASIC CUING DETECTION TASK
@@ -417,7 +451,11 @@ class gaze_ilm(klibs.Experiment):
         events.append([events[-1][0] + 400, "cue_onset"]) # Add in the cue
         events.append([events[-1][0] + 50, "cue_offset"]) # Remove the cue
         events.append([events[-1][0] + 50, "target_onset"]) # Add in the target
-        events.append([events[-1][0] + 50, "target_offset"]) # Remove the target
+        if self.task_requirement == "detection":
+            events.append([events[-1][0] + 50, "target_offset"]) # Remove the target
+        else:
+            if self.task_requirement == "line motion rating":
+                events.append([events[-1][0] + 1000, "target_offset"]) # Remove the line in line motion trials
 
         for e in events:
             self.evm.register_ticket(ET(e[1], e[0]))
