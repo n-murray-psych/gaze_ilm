@@ -28,7 +28,12 @@ GREY = (45, 45, 45)
 class gaze_ilm(klibs.Experiment):
 
     def setup(self):
+
+        if P.run_practice_blocks:
+            self.insert_practice_block(1, trial_counts = P.trials_per_practice_block)
+
         # Block and trial start messages
+        self.practice_block_message = message("Press space to begin the practice trials", "default", blit_txt = False)
         self.block_start_message = message("Press space to begin the experiment", "default", blit_txt = False)
         block_start_message_vertical_offset = deg_to_px(3)
         self.block_start_message_position = (P.screen_c[0], P.screen_c[1]-block_start_message_vertical_offset)
@@ -134,6 +139,7 @@ class gaze_ilm(klibs.Experiment):
         self.no_motion_rating_line = kld.Line(length = no_motion_line_length, color = WHITE, thickness = 3)
         self.scale_listener = ScaleListener(
             self.scale_bounds, loop_callback=self.scale_callback
+
         )
 
     #######################################################################################
@@ -900,14 +906,21 @@ class gaze_ilm(klibs.Experiment):
             self.evm.register_ticket(ET(e[1], e[0]))
 
         # If the first trial of the block, display message to start.
-        if P.block_number == 1 and P.trial_number == 1:
+        if P.run_practice_blocks and P.block_number == 1 and P.trial_number == 1:
+            self.trial_start_stimuli()
+            flip()
+            blit(self.practice_block_message, registration = 5, location = self.block_start_message_position)
+            flip()
+            any_key()
+        
+        if P.block_number == 2 and P.trial_number == 1:
             self.trial_start_stimuli()
             flip()
             blit(self.block_start_message, registration = 5, location = self.block_start_message_position)
             flip()
             any_key()
 
-        if P.block_number > 1 and P.trial_number == 1:
+        if P.block_number > 2 and P.trial_number == 1:
             self.trial_start_stimuli()
             flip()
             blit(self.next_block_message, registration = 5, location = self.block_start_message_position)
@@ -938,6 +951,7 @@ class gaze_ilm(klibs.Experiment):
             print(response, rt)
 
         return {
+            "practice": P.practicing,
             "cue_type": self.cuing_task_type,
             "task_requirement": self.task_requirement,
             "cue_location": self.cue_location,

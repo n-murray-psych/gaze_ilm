@@ -52,6 +52,7 @@ CREATE TABLE participants (
 
 CREATE TABLE trials (
     id integer primary key autoincrement not null,
+    practice text not null,
     participant_id integer not null references participants(id),
     cue_type text not null,
     task_requirement text not null,
