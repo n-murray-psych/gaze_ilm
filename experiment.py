@@ -5,7 +5,7 @@ __author__ = "Nicholas Murray"
 import klibs
 from klibs import P
 from klibs.KLGraphics import KLDraw as kld # To draw shapes
-from klibs.KLUserInterface import any_key, mouse_pos # So participants can press any key to continue; convert mouse presses to mouse position coordinates
+from klibs.KLUserInterface import any_key, mouse_pos, smart_sleep # So participants can press any key to continue; convert mouse presses to mouse position coordinates
 from klibs.KLGraphics import fill, blit, flip # To actually make drawn shapes appear on the screen
 from klibs.KLUtilities import deg_to_px # Convert stimulus sizes according to degrees of visual angle
 from klibs.KLResponseCollectors import KeyPressResponse # To take in key presses as a response to a trial
@@ -17,7 +17,6 @@ import sdl2 # To generate keyboard button names upon pressing them as a response
 from klibs.KLCommunication import message # To write messages on the screen to participants
 from klibs.KLBoundary import RectangleBoundary, BoundaryInspector # To create a boundary within which participants can rate line motion
 from klibs.KLEventQueue import pump, flush # Everything below recommended by Austin for drawing rating scale
-from klibs.KLUserInterface import mouse_pos
 from klibs.KLBoundary import RectangleBoundary
 
 # Defining some useful constants
@@ -142,6 +141,157 @@ class gaze_ilm(klibs.Experiment):
 
         )
 
+        self.task_demo()
+
+    def show_demo_text(msgs, stim_set=[], duration = 1.0, wait=True, msg_y=None):
+        """Draws text and stimuli onto the screen for task instructions."""
+
+        msg_x = int(P.screen_x / 2)
+        msg_y = int(P.screen_y * 0.5) if msg_y is None else msg_y
+        half_space = deg_to_px(0.5)
+
+        # First, render and draw the instruction text to the screen
+        fill()
+        if not isinstance(msgs, list):
+            msgs = [msgs]
+        for msg in msgs:
+            txt = message(msg, align="center")
+            blit(txt, 5, (msg_x, msg_y))
+            msg_y += txt.height + half_space
+
+        # Then, draw any example stimuli to the screen
+        for stim, locs in stim_set:
+            if not isinstance(locs, list):
+                locs = [locs]
+            for loc in locs:
+                blit(stim, 5, loc)
+        flip()
+
+        # Keep stimuli on screen for the requested duration, then either continue or
+        # wait for a keypress to continue (if wait = True)
+        smart_sleep(duration * 1000)
+        if wait:
+            any_key()
+
+    def task_demo(self):
+        def show_demo_text(msgs, stim_set=[], duration = 1.0, wait=True, msg_y=None):
+            """Draws text and stimuli onto the screen for task instructions."""
+
+            msg_x = int(P.screen_x / 2)
+            msg_y = int(P.screen_y * 0.5) if msg_y is None else msg_y
+            half_space = deg_to_px(0.5)
+
+            # First, render and draw the instruction text to the screen
+            fill()
+            if not isinstance(msgs, list):
+                msgs = [msgs]
+            for msg in msgs:
+                txt = message(msg, align="center")
+                blit(txt, 5, (msg_x, msg_y))
+                msg_y += txt.height + half_space
+
+            # Then, draw any example stimuli to the screen
+            for stim, locs in stim_set:
+                if not isinstance(locs, list):
+                    locs = [locs]
+                for loc in locs:
+                    blit(stim, 5, loc)
+            flip()
+
+            # Keep stimuli on screen for the requested duration, then either continue or
+            # wait for a keypress to continue (if wait = True)
+            smart_sleep(duration * 1000)
+            if wait:
+                any_key()
+
+        def generate_stimuli(fixation = "no fixation", x_cross = None, cue_type = None, cue_loc = None, target_loc = None, target_type = None):
+            
+            # Valid exo trial
+                # Start by fixating
+            if fixation == "fixation" and x_cross == None and cue_type == None and cue_loc == None and target_loc == None: 
+                # Fixation cross
+                fill()
+                blit(self.horizontal_cross, registration = 5, location = P.screen_c)
+                blit(self.vertical_cross, registration = 5, location = P.screen_c)
+
+                # Probes
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+                flip()
+                # Go to an x-cross 
+            if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == None:
+                # Fixation cross
+                fill()
+                blit(self.horizontal_cross, registration = 5, location = P.screen_c)
+                blit(self.vertical_cross, registration = 5, location = P.screen_c)
+
+                # Probes
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+                flip()
+                # Draw the cue
+            if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == "left":
+                # X-cross
+                fill()
+                blit(self.x_cross1, registration = 5, location = P.screen_c)
+                blit(self.x_cross2, registration = 5, location = P.screen_c)
+
+                # Probes
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+                
+                # Left exogenous cues
+                blit(self.cue, registration = 5, location = self.left_probe_position)                
+                flip()
+
+                # Draw the valid target
+            if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == "left":
+                # X-cross
+                fill()
+                blit(self.x_cross1, registration = 5, location = P.screen_c)
+                blit(self.x_cross2, registration = 5, location = P.screen_c)
+
+                # Probes
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+                
+                 # Right detection target
+                blit(self.target, registration = 5, location = self.left_probe_position)
+                flip()
+                # Subtract the valid target for response
+            if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == None:
+                # X-cross
+                fill()
+                blit(self.x_cross1, registration = 5, location = P.screen_c)
+                blit(self.x_cross2, registration = 5, location = P.screen_c)
+
+                # Probes
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+                flip()
+
+        show_demo_text(
+            "Welcome to the experiment! This tutorial will help explain the task.")
+
+        show_demo_text(
+            "Each trial of the task begins with a cross at the centre of the screen, and some boxes on the sides.\n At all times during a trial, please keep your eyes fixated at centre.",
+            )
+        generate_stimuli("fixation")
+        
+        show_demo_text(
+            "The next trial of the experiment should start",
+            generate_stimuli("no fixation", "x-cross", "exogenous"))
+        
     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
     #######################################################################################
