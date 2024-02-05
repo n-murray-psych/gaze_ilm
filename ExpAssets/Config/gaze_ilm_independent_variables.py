@@ -51,8 +51,10 @@ exp_factors = FactorSet({
     "cuing_task_type": ["gaze", "exogenous"],
     "cue_location": ["left", "right", "neutral"],
     "target_location": ["left", "right"],
-    "task_requirement": ["leftward real line motion rating", "rightward real line motion rating", "illusory line motion rating", "detection"]
+    "task_requirement": ["leftward real line motion rating", "rightward real line motion rating", "illusory line motion rating", "detection", "detection", "detection", "detection", "detection", "detection"]
 })
+
+
 
 #from klibs.KLIndependentVariable import IndependentVariableSet # To define independent variables
 
