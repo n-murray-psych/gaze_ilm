@@ -393,23 +393,23 @@ class gaze_ilm(klibs.Experiment):
             any_key()
 
         # Creating the actual demo    
-        demo_message_stimuli("Welcome to the experiment! This tutorial will help explain the task \n (Press space to continue)",
+        demo_message_stimuli("Welcome to the experiment! This tutorial will help explain the task. \n (Press space to continue)",
                              "fixation"
                              )
         
-        demo_message_stimuli("Every trial begins with what you see below: a fixation cross, and two circles. \n (Press space to continue)",
+        demo_message_stimuli("Every trial begins with what you see below: \n a fixation cross, and two circles. \n (Press space to continue)",
                              "fixation"
                              )
         
-        demo_message_stimuli("To begin trials, we ask that you fixate your eyes on that central cross, and keep fixated there during the entire trial. \n (Press space to continue)",
+        demo_message_stimuli("To begin trials, \n we ask that you fixate your eyes on that central cross, \n and keep fixated there during the entire trial. \n (Press space to continue)",
                              "fixation"
                              )
         
-        demo_message_stimuli("With your eyes fixated at centre, you will be prompted to press space to start the trial. \n That means you can take a quick break between trials if you would like! \n (Press space to continue)",
+        demo_message_stimuli("With your eyes fixated at centre, \n you will be prompted to press space to start the trial. \n That means you can take a quick break \n between trials if you would like! \n (Press space to continue)",
                              "fixation"
                              )
         
-        demo_message_stimuli("Once you press space to start a trial, one of two things will happen: \n (Press space to continue)",
+        demo_message_stimuli("Once you press space to start a trial, \n one of two things will happen: \n (Press space to continue)",
                              "fixation"
                              )
         
@@ -429,7 +429,7 @@ class gaze_ilm(klibs.Experiment):
                               "left_exogenous_cue"
                              )
         
-        demo_message_stimuli("Then, the flash will disappear, and a dot will appear in one of the two circles: \n (Press space to continue)",
+        demo_message_stimuli("Then, the flash will disappear, \n and a dot will appear in one of the two circles: \n (Press space to continue)",
                               "right_detection_target"
                              )
         
@@ -437,11 +437,11 @@ class gaze_ilm(klibs.Experiment):
                               "right_detection_target"
                              )
 
-        demo_message_stimuli("During the experiment respond by pressing 'z' or '/' as fast as you can after seeing the dot. \n Don't worry, you'll get to practice after this demo! \n (Press space to continue)",
+        demo_message_stimuli("During the experiment respond by pressing 'z' or '/' \n as fast as you can after seeing the dot. \n Don't worry, you'll get to practice after this demo! \n (Press space to continue)",
                               "right_detection_target"
                              )
         
-        demo_message_stimuli("After each trial, you'll be brought back to this screen, and you'll be asked to press space to start new trial. \n (Press space to continue)",
+        demo_message_stimuli("After each trial, you'll be brought back to this screen, \n and you'll be asked to press space to start new trial. \n (Press space to continue)",
                              "fixation"
                              )
 
@@ -449,19 +449,19 @@ class gaze_ilm(klibs.Experiment):
                              "no_pupil_gaze_face"
                              )
         
-        demo_message_stimuli("Then pupils will appear, looking either left, right, or straight ahead: \n (Press space to continue)",
+        demo_message_stimuli("Then pupils will appear, \n looking either left, right, or straight ahead: \n (Press space to continue)",
                              "right_gaze_face"
                              )
         
-        demo_message_stimuli("Then, the dot will appear on one side. \n As usual, you have to respond as fast as you can by pressing 'z' for left, or '/' for right. \n (Press space to continue)",
+        demo_message_stimuli("Then, the dot will appear on one side. \n As usual, you have to respond as fast as you can \n by pressing 'z' for left, or '/' for right. \n (Press space to continue)",
                              "left_gaze_target"
                              )
         
-        demo_message_stimuli("You will have noticed that sometimes the eyes (or the flash) can appear on the side opposite the target. \n That means the direction of the eyes and the location of the flash are not useful for guessing where the target dot will appear. \n (Press space to continue)",
+        demo_message_stimuli("You will have noticed that sometimes the eyes (or the flash) \n can appear on the side opposite the target dot. \n That means the direction of the eyes and \n the location of the flash are not useful for guessing where the target dot will appear. \n (Press space to continue)",
                              "right_gaze_target"
                              )
         
-        demo_message_stimuli("So, you just have to respond to wherever the dot appears, \n while keeping your eyes fixated on the centre (whether that be the x or the face). \n (Press space to continue)",
+        demo_message_stimuli("So, you just have to respond to wherever the dot appears, \n while keeping your eyes fixated on the centre \n (whether that be the x or the face). \n (Press space to continue)",
                              "neutral_gaze_face"
                              )
         
@@ -469,7 +469,7 @@ class gaze_ilm(klibs.Experiment):
                              "exo_line_draw"
                              )
         
-        demo_message_stimuli("In these cases, you won't be responding to a dot that appears after the flash or the pupils moving. \n (Press space to continue)",
+        demo_message_stimuli("In these cases, you won't be responding to a dot that appears \n after the flash or the pupils moving. \n (Press space to continue)",
                              "right_gaze_line_draw"
                              )
         
@@ -493,7 +493,7 @@ class gaze_ilm(klibs.Experiment):
                              "line_rating_scale"
                              )    
         
-        demo_message_stimuli("That's it! \n Remember: for the dot-target task, press 'z' if the dot appears on the left, and '/' if it appears on the right. \n For the line rating task, report whether the line moved, and if it moved, what direction and how strongly it seemed to move. \n So, you can assume each trial is probably a dot target task. \n (Press space to continue)",
+        demo_message_stimuli("That's it! \n Remember: for the dot-target task, \n press 'z' if the dot appears on the left, and '/' if it appears on the right. \n For the line rating task, report whether the line moved, \n and if it moved, what direction and how strongly it seemed to move. \n So, you can assume each trial is probably a dot target task. \n (Press space to continue)",
                              )   
 
         demo_message_stimuli("Next, you will get to practice a bit before doing the experiment. \n If you have any questions, please feel free to ask them at any time! \n (Press space to continue to practice trials)",
