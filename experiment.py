@@ -205,6 +205,139 @@ class gaze_ilm(klibs.Experiment):
                 blit(self.innercircle, registration = 5, location = self.left_probe_position)
                 blit(self.innercircle, registration = 5, location = self.right_probe_position)
 
+            # Go to a leftwards exogenous cue
+            if stimuli_type == "left_exogenous_cue":
+                blit(self.x_cross1, registration = 5, location = P.screen_c)
+                blit(self.x_cross2, registration = 5, location = P.screen_c)
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
+                blit(self.cue, registration = 5, location = self.left_probe_position)
+
+            # Go to a right detection target
+            if stimuli_type == "right_detection_target":
+                blit(self.x_cross1, registration = 5, location = P.screen_c)
+                blit(self.x_cross2, registration = 5, location = P.screen_c)
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
+                blit(self.target, registration = 5, location = self.right_probe_position)
+
+            # Go to a right looking gaze face
+            if stimuli_type == "right_gaze_face":
+                blit(self.facecircle, registration = 5, location = P.screen_c)
+                blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+                blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+                blit(self.pupilcircle, registration = 5, location = self.lefteye_right_pupilcue_position)
+                blit(self.pupilcircle, registration = 5, location = self.righteye_right_pupilcue_position)
+                blit(self.nose, registration = 5, location = P.screen_c)
+                blit(self.mouth, registration = 5, location = self.mouth_position)
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
+            # Go to left invalid gaze target
+            if stimuli_type == "left_gaze_target":
+                blit(self.facecircle, registration = 5, location = P.screen_c)
+                blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+                blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+                blit(self.pupilcircle, registration = 5, location = self.lefteye_right_pupilcue_position)
+                blit(self.pupilcircle, registration = 5, location = self.righteye_right_pupilcue_position)
+                blit(self.nose, registration = 5, location = P.screen_c)
+                blit(self.mouth, registration = 5, location = self.mouth_position)
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
+                blit(self.target, registration = 5, location = self.left_probe_position)
+
+            # Go to a right valid gaze target
+            if stimuli_type == "right_gaze_target":
+                blit(self.facecircle, registration = 5, location = P.screen_c)
+                blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+                blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+                blit(self.pupilcircle, registration = 5, location = self.lefteye_right_pupilcue_position)
+                blit(self.pupilcircle, registration = 5, location = self.righteye_right_pupilcue_position)
+                blit(self.nose, registration = 5, location = P.screen_c)
+                blit(self.mouth, registration = 5, location = self.mouth_position)
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
+                blit(self.target, registration = 5, location = self.right_probe_position)
+
+            # Go to a neutral looking gaze face
+            if stimuli_type == "neutral_gaze_face":
+                blit(self.facecircle, registration = 5, location = P.screen_c)
+                blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+                blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+                blit(self.pupilcircle, registration = 5, location = self.left_eye_position)
+                blit(self.pupilcircle, registration = 5, location = self.right_eye_position)
+                blit(self.nose, registration = 5, location = P.screen_c)
+                blit(self.mouth, registration = 5, location = self.mouth_position)
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
+            # Draw a line for an exo trial
+            if stimuli_type == "exo_line_draw":
+                blit(self.x_cross1, registration = 5, location = P.screen_c)
+                blit(self.x_cross2, registration = 5, location = P.screen_c)
+
+                # Probes
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+                
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+                blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+
+            # Draw a line for a gaze trial
+            if stimuli_type == "right_gaze_line_draw":
+                blit(self.facecircle, registration = 5, location = P.screen_c)
+                blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+                blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+                blit(self.pupilcircle, registration = 5, location = self.lefteye_right_pupilcue_position)
+                blit(self.pupilcircle, registration = 5, location = self.righteye_right_pupilcue_position)
+                blit(self.nose, registration = 5, location = P.screen_c)
+                blit(self.mouth, registration = 5, location = self.mouth_position)
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+                
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+                blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+                blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+
+            # Draw line rating scale
+            if stimuli_type == "line_rating_scale":
+                blit(self.motion_rating_message, registration = 5, location = self.motion_rating_message_position)
+                blit(self.left_motion_rating_message, registration = 5, location = self.left_motion_rating_message_position)
+                blit(self.right_motion_rating_message, registration = 5, location = self.right_motion_rating_message_position)
+                blit(self.no_motion_rating_message, registration = 5, location = self.no_motion_rating_message_position)
+                blit(self.no_motion_rating_line, registration = 5, location = self.scale_loc)
+                blit(self.scale, 5, self.scale_loc)
                 # Draw the cue
             # if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == "left":
             #     # X-cross
@@ -287,15 +420,84 @@ class gaze_ilm(klibs.Experiment):
         demo_message_stimuli("Or a face without pupils, like this: \n (Press space to continue)",
                               "no_pupil_gaze_face"
                              )
-
-        #show_demo_text(
-            #"Each trial of the task begins with a cross at the centre of the screen, and some boxes on the sides.\n At all times during a trial, please keep your eyes fixated at centre.",
-            #)
-        #generate_stimuli("fixation")
-        #any_key()
-    
         
-    #######################################################################################
+        demo_message_stimuli("For now, we'll focus on trials where an x appears: \n (Press space to continue)",
+                              "x-cross"
+                             )
+
+        demo_message_stimuli("After the x, a flash will appear in one or both of the circles: \n (Press space to continue)",
+                              "left_exogenous_cue"
+                             )
+        
+        demo_message_stimuli("Then, the flash will disappear, and a dot will appear in one of the two circles: \n (Press space to continue)",
+                              "right_detection_target"
+                             )
+        
+        demo_message_stimuli("This is where your task comes in: \n If the dot appears on the left, press the 'z' key with your left index finger. \n If the dot appears on the right, press the '/' key with your right index finger. \n (Press space to continue)",
+                              "right_detection_target"
+                             )
+
+        demo_message_stimuli("During the experiment respond by pressing 'z' or '/' as fast as you can after seeing the dot. \n Don't worry, you'll get to practice after this demo! \n (Press space to continue)",
+                              "right_detection_target"
+                             )
+        
+        demo_message_stimuli("After each trial, you'll be brought back to this screen, and you'll be asked to press space to start new trial. \n (Press space to continue)",
+                             "fixation"
+                             )
+
+        demo_message_stimuli("Now let's try this with the face. \n Remember, you'll see a face with no pupils appear: \n (Press space to continue)",
+                             "no_pupil_gaze_face"
+                             )
+        
+        demo_message_stimuli("Then pupils will appear, looking either left, right, or straight ahead: \n (Press space to continue)",
+                             "right_gaze_face"
+                             )
+        
+        demo_message_stimuli("Then, the dot will appear on one side. \n As usual, you have to respond as fast as you can by pressing 'z' for left, or '/' for right. \n (Press space to continue)",
+                             "left_gaze_target"
+                             )
+        
+        demo_message_stimuli("You will have noticed that sometimes the eyes (or the flash) can appear on the side opposite the target. \n That means the direction of the eyes and the location of the flash are not useful for guessing where the target dot will appear. \n (Press space to continue)",
+                             "right_gaze_target"
+                             )
+        
+        demo_message_stimuli("So, you just have to respond to wherever the dot appears, \n while keeping your eyes fixated on the centre (whether that be the x or the face). \n (Press space to continue)",
+                             "neutral_gaze_face"
+                             )
+        
+        demo_message_stimuli("Now, sometimes instead of a dot appearing in one of the circles, \n a line will appear connecting the two dots: \n (Press space to continue)",
+                             "exo_line_draw"
+                             )
+        
+        demo_message_stimuli("In these cases, you won't be responding to a dot that appears after the flash or the pupils moving. \n (Press space to continue)",
+                             "right_gaze_line_draw"
+                             )
+        
+        demo_message_stimuli("Instead, you'll be asked to rate the quality of the line motion: \n (Press space to continue)",
+                             "line_rating_scale"
+                             )        
+        
+        demo_message_stimuli("If the line seemed like it was moving when it appeared, \n then you'd click in the rectangle which direction it moved in: left or right? \n (Press space to continue)",
+                             "line_rating_scale"
+                             )       
+
+        demo_message_stimuli("We ask if the line seemed to move, please respond not just with the direction: \n Depending on how intensely the line seemed to move, \n you can click further left (for stronger leftward motion) \n or further right (for stronger rightward motion) within the rectangle. \n (Press space to continue)",
+                             "line_rating_scale"
+                             )       
+        
+        demo_message_stimuli("Of course, if the line seemed to appear all at once (instead of moving), \n you can click the middle of the rectangle to specify 'No motion'. \n (Press space to continue)",
+                             "line_rating_scale"
+                             )
+
+        demo_message_stimuli("This line rating task will happen less often than the dot target task. \n So, you can assume each trial is probably a dot target task. \n (Press space to continue)",
+                             "line_rating_scale"
+                             )    
+        
+        demo_message_stimuli("That's it! \n Remember: for the dot-target task, press 'z' if the dot appears on the left, and '/' if it appears on the right. \n For the line rating task, report whether the line moved, and if it moved, what direction and how strongly it seemed to move. \n So, you can assume each trial is probably a dot target task. \n (Press space to continue)",
+                             )   
+
+        demo_message_stimuli("Next, you will get to practice a bit before doing the experiment. \n If you have any questions, please feel free to ask them at any time! \n (Press space to continue to practice trials)",
+                             )     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
     #######################################################################################
 
