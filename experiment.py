@@ -496,7 +496,7 @@ class gaze_ilm(klibs.Experiment):
         demo_message_stimuli("That's it! \n Remember: for the dot-target task, \n press 'z' if the dot appears on the left, and '/' if it appears on the right. \n For the line rating task, report whether the line moved, \n and if it moved, what direction and how strongly it seemed to move. \n So, you can assume each trial is probably a dot target task. \n (Press space to continue)",
                              )   
 
-        demo_message_stimuli("Next, you will get to practice a bit before doing the experiment. \n If you have any questions, please feel free to ask them at any time! \n (Press space to continue to practice trials)",
+        demo_message_stimuli("Next, you will get to practice a bit before doing the experiment. \n If you have any questions, please ask them now. \n And if you have any more questions later, you can stop and ask them at any time. \n (Press space to continue to practice trials)",
                              )     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
     #######################################################################################
