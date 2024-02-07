@@ -164,11 +164,11 @@ class gaze_ilm(klibs.Experiment):
             #stim_set
             #flip()
 
-        def generate_stimuli(fixation = "no fixation", x_cross = None, cue_type = None, cue_loc = None, target_loc = None, target_type = None):
+        def generate_stimuli(stimuli_type):
             
             # Valid exo trial
                 # Start by fixating
-            if fixation == "fixation" and x_cross == None and cue_type == None and cue_loc == None and target_loc == None: 
+            if stimuli_type == "fixation": 
                 # Fixation cross
                 blit(self.horizontal_cross, registration = 5, location = P.screen_c)
                 blit(self.vertical_cross, registration = 5, location = P.screen_c)
@@ -180,73 +180,112 @@ class gaze_ilm(klibs.Experiment):
                 blit(self.innercircle, registration = 5, location = self.right_probe_position)
                 
                 # Go to an x-cross 
-            if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == None:
+            if stimuli_type == "x-cross":
                 # Fixation cross
-                blit(self.horizontal_cross, registration = 5, location = P.screen_c)
-                blit(self.vertical_cross, registration = 5, location = P.screen_c)
+                blit(self.x_cross1, registration = 5, location = P.screen_c)
+                blit(self.x_cross2, registration = 5, location = P.screen_c)
 
                 # Probes
                 blit(self.probecircle, registration = 5, location = self.left_probe_position)
                 blit(self.probecircle, registration = 5, location = self.right_probe_position)
                 blit(self.innercircle, registration = 5, location = self.left_probe_position)
                 blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
+            # Go to a no-pupil gaze face
+            if stimuli_type == "no_pupil_gaze_face":
+                blit(self.facecircle, registration = 5, location = P.screen_c)
+                blit(self.eyecircle, registration = 5, location = self.left_eye_position)
+                blit(self.eyecircle, registration = 5, location = self.right_eye_position)
+                blit(self.nose, registration = 5, location = P.screen_c)
+                blit(self.mouth, registration = 5, location = self.mouth_position)
+
+                # Probes
+                blit(self.probecircle, registration = 5, location = self.left_probe_position)
+                blit(self.probecircle, registration = 5, location = self.right_probe_position)
+                blit(self.innercircle, registration = 5, location = self.left_probe_position)
+                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+
                 # Draw the cue
-            if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == "left":
-                # X-cross
-                fill()
-                blit(self.x_cross1, registration = 5, location = P.screen_c)
-                blit(self.x_cross2, registration = 5, location = P.screen_c)
+            # if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == "left":
+            #     # X-cross
+            #     fill()
+            #     blit(self.x_cross1, registration = 5, location = P.screen_c)
+            #     blit(self.x_cross2, registration = 5, location = P.screen_c)
 
-                # Probes
-                blit(self.probecircle, registration = 5, location = self.left_probe_position)
-                blit(self.probecircle, registration = 5, location = self.right_probe_position)
-                blit(self.innercircle, registration = 5, location = self.left_probe_position)
-                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+            #     # Probes
+            #     blit(self.probecircle, registration = 5, location = self.left_probe_position)
+            #     blit(self.probecircle, registration = 5, location = self.right_probe_position)
+            #     blit(self.innercircle, registration = 5, location = self.left_probe_position)
+            #     blit(self.innercircle, registration = 5, location = self.right_probe_position)
                 
-                # Left exogenous cues
-                blit(self.cue, registration = 5, location = self.left_probe_position)                
-                flip()
+            #     # Left exogenous cues
+            #     blit(self.cue, registration = 5, location = self.left_probe_position)                
+            #     flip()
 
-                # Draw the valid target
-            if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == "left":
-                # X-cross
-                fill()
-                blit(self.x_cross1, registration = 5, location = P.screen_c)
-                blit(self.x_cross2, registration = 5, location = P.screen_c)
+            #     # Draw the valid target
+            # if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == "left":
+            #     # X-cross
+            #     fill()
+            #     blit(self.x_cross1, registration = 5, location = P.screen_c)
+            #     blit(self.x_cross2, registration = 5, location = P.screen_c)
 
-                # Probes
-                blit(self.probecircle, registration = 5, location = self.left_probe_position)
-                blit(self.probecircle, registration = 5, location = self.right_probe_position)
-                blit(self.innercircle, registration = 5, location = self.left_probe_position)
-                blit(self.innercircle, registration = 5, location = self.right_probe_position)
+            #     # Probes
+            #     blit(self.probecircle, registration = 5, location = self.left_probe_position)
+            #     blit(self.probecircle, registration = 5, location = self.right_probe_position)
+            #     blit(self.innercircle, registration = 5, location = self.left_probe_position)
+            #     blit(self.innercircle, registration = 5, location = self.right_probe_position)
                 
-                 # Right detection target
-                blit(self.target, registration = 5, location = self.left_probe_position)
-                flip()
-                # Subtract the valid target for response
-            if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == None:
-                # X-cross
-                fill()
-                blit(self.x_cross1, registration = 5, location = P.screen_c)
-                blit(self.x_cross2, registration = 5, location = P.screen_c)
+            #      # Right detection target
+            #     blit(self.target, registration = 5, location = self.left_probe_position)
+            #     flip()
+            #     # Subtract the valid target for response
+            # if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == None:
+            #     # X-cross
+            #     fill()
+            #     blit(self.x_cross1, registration = 5, location = P.screen_c)
+            #     blit(self.x_cross2, registration = 5, location = P.screen_c)
 
-                # Probes
-                blit(self.probecircle, registration = 5, location = self.left_probe_position)
-                blit(self.probecircle, registration = 5, location = self.right_probe_position)
-                blit(self.innercircle, registration = 5, location = self.left_probe_position)
-                blit(self.innercircle, registration = 5, location = self.right_probe_position)
-                flip()
+            #     # Probes
+            #     blit(self.probecircle, registration = 5, location = self.left_probe_position)
+            #     blit(self.probecircle, registration = 5, location = self.right_probe_position)
+            #     blit(self.innercircle, registration = 5, location = self.left_probe_position)
+            #     blit(self.innercircle, registration = 5, location = self.right_probe_position)
+            #     flip()
 
-        def demo_message_stimuli(message = "", stimuli_conditions = []):
+        def demo_message_stimuli(message = "", stimuli_condition = []):
             fill()
             show_demo_text(message)
-            generate_stimuli(stimuli_conditions)
+            generate_stimuli(stimuli_condition)
             flip()
             any_key()
 
         # Creating the actual demo    
-        demo_message_stimuli("Welcome to the experiment! This tutorial will help explain the task",
+        demo_message_stimuli("Welcome to the experiment! This tutorial will help explain the task \n (Press space to continue)",
                              "fixation"
+                             )
+        
+        demo_message_stimuli("Every trial begins with what you see below: a fixation cross, and two circles. \n (Press space to continue)",
+                             "fixation"
+                             )
+        
+        demo_message_stimuli("To begin trials, we ask that you fixate your eyes on that central cross, and keep fixated there during the entire trial. \n (Press space to continue)",
+                             "fixation"
+                             )
+        
+        demo_message_stimuli("With your eyes fixated at centre, you will be prompted to press space to start the trial. \n That means you can take a quick break between trials if you would like! \n (Press space to continue)",
+                             "fixation"
+                             )
+        
+        demo_message_stimuli("Once you press space to start a trial, one of two things will happen: \n (Press space to continue)",
+                             "fixation"
+                             )
+        
+        demo_message_stimuli("You'll either see an x-appear at the centre, like this: \n (Press space to continue)",
+                              "x-cross"
+                             )
+
+        demo_message_stimuli("Or a face without pupils, like this: \n (Press space to continue)",
+                              "no_pupil_gaze_face"
                              )
 
         #show_demo_text(
