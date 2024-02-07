@@ -143,66 +143,26 @@ class gaze_ilm(klibs.Experiment):
 
         self.task_demo()
 
-    def show_demo_text(msgs, stim_set=[], duration = 1.0, wait=True, msg_y=None):
-        """Draws text and stimuli onto the screen for task instructions."""
-
-        msg_x = int(P.screen_x / 2)
-        msg_y = int(P.screen_y * 0.5) if msg_y is None else msg_y
-        half_space = deg_to_px(0.5)
-
-        # First, render and draw the instruction text to the screen
-        fill()
-        if not isinstance(msgs, list):
-            msgs = [msgs]
-        for msg in msgs:
-            txt = message(msg, align="center")
-            blit(txt, 5, (msg_x, msg_y))
-            msg_y += txt.height + half_space
-
-        # Then, draw any example stimuli to the screen
-        for stim, locs in stim_set:
-            if not isinstance(locs, list):
-                locs = [locs]
-            for loc in locs:
-                blit(stim, 5, loc)
-        flip()
-
-        # Keep stimuli on screen for the requested duration, then either continue or
-        # wait for a keypress to continue (if wait = True)
-        smart_sleep(duration * 1000)
-        if wait:
-            any_key()
-
     def task_demo(self):
-        def show_demo_text(msgs, stim_set=[], duration = 1.0, wait=True, msg_y=None):
-            """Draws text and stimuli onto the screen for task instructions."""
+        #def show_demo_text(msg, stim_set = []):
+         #   msg_x = int(P.screen_x / 2)
+          #  msg_y = int(P.screen_y * .5)
+           # text = message(msg, "default", blit_txt = False)
 
-            msg_x = int(P.screen_x / 2)
-            msg_y = int(P.screen_y * 0.5) if msg_y is None else msg_y
-            half_space = deg_to_px(0.5)
+           # fill()
+            #blit(text, registration = 5, location = (msg_x, msg_y))
+            #stim_set
+            #flip()
 
-            # First, render and draw the instruction text to the screen
-            fill()
-            if not isinstance(msgs, list):
-                msgs = [msgs]
-            for msg in msgs:
-                txt = message(msg, align="center")
-                blit(txt, 5, (msg_x, msg_y))
-                msg_y += txt.height + half_space
+        def show_demo_text(msg):
+            message_vertical_offset = deg_to_px(6)
+            self.message_position = (P.screen_c[0], P.screen_c[1]-message_vertical_offset)
+            text = message(msg, "default", blit_txt = False)
 
-            # Then, draw any example stimuli to the screen
-            for stim, locs in stim_set:
-                if not isinstance(locs, list):
-                    locs = [locs]
-                for loc in locs:
-                    blit(stim, 5, loc)
-            flip()
-
-            # Keep stimuli on screen for the requested duration, then either continue or
-            # wait for a keypress to continue (if wait = True)
-            smart_sleep(duration * 1000)
-            if wait:
-                any_key()
+            #fill()
+            blit(text, registration = 5, location = self.message_position)
+            #stim_set
+            #flip()
 
         def generate_stimuli(fixation = "no fixation", x_cross = None, cue_type = None, cue_loc = None, target_loc = None, target_type = None):
             
@@ -210,7 +170,6 @@ class gaze_ilm(klibs.Experiment):
                 # Start by fixating
             if fixation == "fixation" and x_cross == None and cue_type == None and cue_loc == None and target_loc == None: 
                 # Fixation cross
-                fill()
                 blit(self.horizontal_cross, registration = 5, location = P.screen_c)
                 blit(self.vertical_cross, registration = 5, location = P.screen_c)
 
@@ -219,11 +178,10 @@ class gaze_ilm(klibs.Experiment):
                 blit(self.probecircle, registration = 5, location = self.right_probe_position)
                 blit(self.innercircle, registration = 5, location = self.left_probe_position)
                 blit(self.innercircle, registration = 5, location = self.right_probe_position)
-                flip()
+                
                 # Go to an x-cross 
             if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == None and target_loc == None:
                 # Fixation cross
-                fill()
                 blit(self.horizontal_cross, registration = 5, location = P.screen_c)
                 blit(self.vertical_cross, registration = 5, location = P.screen_c)
 
@@ -232,7 +190,6 @@ class gaze_ilm(klibs.Experiment):
                 blit(self.probecircle, registration = 5, location = self.right_probe_position)
                 blit(self.innercircle, registration = 5, location = self.left_probe_position)
                 blit(self.innercircle, registration = 5, location = self.right_probe_position)
-                flip()
                 # Draw the cue
             if x_cross == "x-cross" and cue_type == "exogenous" and cue_loc == "left":
                 # X-cross
@@ -280,17 +237,24 @@ class gaze_ilm(klibs.Experiment):
                 blit(self.innercircle, registration = 5, location = self.right_probe_position)
                 flip()
 
-        show_demo_text(
-            "Welcome to the experiment! This tutorial will help explain the task.")
+        def demo_message_stimuli(message = "", stimuli_conditions = []):
+            fill()
+            show_demo_text(message)
+            generate_stimuli(stimuli_conditions)
+            flip()
+            any_key()
 
-        show_demo_text(
-            "Each trial of the task begins with a cross at the centre of the screen, and some boxes on the sides.\n At all times during a trial, please keep your eyes fixated at centre.",
-            )
-        generate_stimuli("fixation")
-        
-        show_demo_text(
-            "The next trial of the experiment should start",
-            generate_stimuli("no fixation", "x-cross", "exogenous"))
+        # Creating the actual demo    
+        demo_message_stimuli("Welcome to the experiment! This tutorial will help explain the task",
+                             "fixation"
+                             )
+
+        #show_demo_text(
+            #"Each trial of the task begins with a cross at the centre of the screen, and some boxes on the sides.\n At all times during a trial, please keep your eyes fixated at centre.",
+            #)
+        #generate_stimuli("fixation")
+        #any_key()
+    
         
     #######################################################################################
         # FUNCTIONS DEFINING THE EXOGENOUS CUING TASK STIMULI
