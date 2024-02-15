@@ -157,7 +157,7 @@ class gaze_ilm(klibs.Experiment):
         def show_demo_text(msg):
             message_vertical_offset = deg_to_px(6)
             self.message_position = (P.screen_c[0], P.screen_c[1]-message_vertical_offset)
-            text = message(msg, "default", blit_txt = False)
+            text = message(msg, "default", blit_txt = False, align = "center")
 
             #fill()
             blit(text, registration = 5, location = self.message_position)
