@@ -99,8 +99,9 @@ class gaze_ilm(klibs.Experiment):
         self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
 
         # Real line motion stimuli
-        linelength_shorterline = deg_to_px(.56)
+        linelength_shorterline = deg_to_px(.56) # Length for 260 Hz monitor
         linelength_longerline = deg_to_px(.59)
+        linelength = deg_to_px(1.1075) # Length for 120 Hz monitor
         lineoffset_shorterlines = deg_to_px(2.485)
         self.shorter_moving_line = kld.Line(length = linelength_shorterline, color = WHITE, thickness = 3, rotation = 90)
         self.longer_moving_line = kld.Line(length = linelength_longerline, color = WHITE, thickness = 3, rotation = 90)
@@ -112,6 +113,12 @@ class gaze_ilm(klibs.Experiment):
         self.real_line_6_position = (P.screen_c[0]+deg_to_px(.81), P.screen_c[1]-probe_vertical_offset)
         self.real_line_7_position = (P.screen_c[0]+deg_to_px(1.36), P.screen_c[1]-probe_vertical_offset)
         self.real_line_8_position = (P.screen_c[0]+deg_to_px(1.91), P.screen_c[1]-probe_vertical_offset)
+
+        self.moving_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
+        self.moving_line_1_position = (P.screen_c[0]-deg_to_px(1.66125), P.screen_c[1]-probe_vertical_offset)
+        self.moving_line_2_position = (P.screen_c[0]-deg_to_px(.55375), P.screen_c[1]-probe_vertical_offset)
+        self.moving_line_3_position = (P.screen_c[0]+deg_to_px(.55375), P.screen_c[1]-probe_vertical_offset)
+        self.moving_line_4_position = (P.screen_c[0]+deg_to_px(1.66125), P.screen_c[1]-probe_vertical_offset)
 
         # Line motion rating scale stimuli
         scale_vertical_offset = deg_to_px(1.1)
@@ -769,15 +776,22 @@ class gaze_ilm(klibs.Experiment):
     def draw_static_line(self):
 
         def static_line():
-            # Static line composed of small lines
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-            blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-            blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+            # Static line composed of small lines; 260 Hz Monitor
+            #blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+            #blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+            #blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+            #blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+            #blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+            #blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+            #blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+            #blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+
+            # Static line composed of small lines; 120 Hz monitor
+            blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
+            blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
+            blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
+            blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
+
 
         if self.cuing_task_type == "gaze":
             # Face without pupils
@@ -847,165 +861,232 @@ class gaze_ilm(klibs.Experiment):
             blit(self.innercircle, registration = 5, location = self.right_probe_position)
                     
 
+        # if self.task_requirement == "rightward real line motion rating":
+        #     while self.evm.between("target_onset", "line1"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 flip()
+
+        #     while self.evm.between("line1", "line2"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 flip()
+
+        #     while self.evm.between("line2", "line3"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 flip()
+
+        #     while self.evm.between("line3", "line4"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 flip()
+
+        #     while self.evm.between("line4", "line5"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 flip()
+
+        #     while self.evm.between("line5", "line6"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 flip()
+
+        #     while self.evm.between("line6", "line7"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 flip()
+
+        #     while self.evm.between("line7", "target_offset"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 flip()
+            
+            # 120 Hz monitor 
+            
         if self.task_requirement == "rightward real line motion rating":
             while self.evm.between("target_onset", "line1"):
                 if self.cuing_task_type == "gaze":
                     fill()
                     gaze_line_stimuli()
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
                     flip()
                 else:
                     if self.cuing_task_type == "exogenous":
                         fill()
                         exo_line_stimuli()
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
                         flip()
 
             while self.evm.between("line1", "line2"):
                 if self.cuing_task_type == "gaze":
                     fill()
                     gaze_line_stimuli()
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
                     flip()
                 else:
                     if self.cuing_task_type == "exogenous":
                         fill()
                         exo_line_stimuli()
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
                         flip()
 
             while self.evm.between("line2", "line3"):
                 if self.cuing_task_type == "gaze":
                     fill()
                     gaze_line_stimuli()
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
                     flip()
                 else:
                     if self.cuing_task_type == "exogenous":
                         fill()
                         exo_line_stimuli()
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
                         flip()
 
-            while self.evm.between("line3", "line4"):
+            while self.evm.between("line4", "target_offset"):
                 if self.cuing_task_type == "gaze":
                     fill()
                     gaze_line_stimuli()
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
                     flip()
                 else:
                     if self.cuing_task_type == "exogenous":
                         fill()
                         exo_line_stimuli()
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        flip()
-
-            while self.evm.between("line4", "line5"):
-                if self.cuing_task_type == "gaze":
-                    fill()
-                    gaze_line_stimuli()
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                    flip()
-                else:
-                    if self.cuing_task_type == "exogenous":
-                        fill()
-                        exo_line_stimuli()
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                        flip()
-
-            while self.evm.between("line5", "line6"):
-                if self.cuing_task_type == "gaze":
-                    fill()
-                    gaze_line_stimuli()
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                    flip()
-                else:
-                    if self.cuing_task_type == "exogenous":
-                        fill()
-                        exo_line_stimuli()
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                        flip()
-
-            while self.evm.between("line6", "line7"):
-                if self.cuing_task_type == "gaze":
-                    fill()
-                    gaze_line_stimuli()
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                    flip()
-                else:
-                    if self.cuing_task_type == "exogenous":
-                        fill()
-                        exo_line_stimuli()
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                        flip()
-
-            while self.evm.between("line7", "target_offset"):
-                if self.cuing_task_type == "gaze":
-                    fill()
-                    gaze_line_stimuli()
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                    flip()
-                else:
-                    if self.cuing_task_type == "exogenous":
-                        fill()
-                        exo_line_stimuli()
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_1_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
                         flip()
 
     def draw_left_line(self):            
@@ -1036,167 +1117,231 @@ class gaze_ilm(klibs.Experiment):
             blit(self.innercircle, registration = 5, location = self.right_probe_position)
                     
 
+        # if self.task_requirement == "leftward real line motion rating":
+        #     while self.evm.between("target_onset", "line1"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 flip()
+
+        #     while self.evm.between("line1", "line2"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 flip()
+
+        #     while self.evm.between("line2", "line3"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 flip()
+
+        #     while self.evm.between("line3", "line4"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 flip()
+
+        #     while self.evm.between("line4", "line5"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 flip()
+
+        #     while self.evm.between("line5", "line6"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 flip()
+
+        #     while self.evm.between("line6", "line7"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 flip()
+
+        #     while self.evm.between("line7", "target_offset"):
+        #         if self.cuing_task_type == "gaze":
+        #             fill()
+        #             gaze_line_stimuli()
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #             blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #             blit(self.longer_moving_line, registration = 5, location = self.real_line_1_position)
+        #             flip()
+        #         else:
+        #             if self.cuing_task_type == "exogenous":
+        #                 fill()
+        #                 exo_line_stimuli()
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
+        #                 blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
+        #                 blit(self.longer_moving_line, registration = 5, location = self.real_line_1_position)
+        #                 flip()
+            
         if self.task_requirement == "leftward real line motion rating":
             while self.evm.between("target_onset", "line1"):
                 if self.cuing_task_type == "gaze":
                     fill()
                     gaze_line_stimuli()
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
                     flip()
                 else:
                     if self.cuing_task_type == "exogenous":
                         fill()
                         exo_line_stimuli()
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
                         flip()
 
             while self.evm.between("line1", "line2"):
                 if self.cuing_task_type == "gaze":
                     fill()
                     gaze_line_stimuli()
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
                     flip()
                 else:
                     if self.cuing_task_type == "exogenous":
                         fill()
                         exo_line_stimuli()
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
                         flip()
 
             while self.evm.between("line2", "line3"):
                 if self.cuing_task_type == "gaze":
                     fill()
                     gaze_line_stimuli()
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
                     flip()
                 else:
                     if self.cuing_task_type == "exogenous":
                         fill()
                         exo_line_stimuli()
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
                         flip()
 
-            while self.evm.between("line3", "line4"):
+            while self.evm.between("line4", "target_offset"):
                 if self.cuing_task_type == "gaze":
                     fill()
                     gaze_line_stimuli()
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
+                    blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
                     flip()
                 else:
                     if self.cuing_task_type == "exogenous":
                         fill()
                         exo_line_stimuli()
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_4_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_3_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_2_position)
+                        blit(self.moving_line, registration = 5, location = self.moving_line_1_position)
                         flip()
-
-            while self.evm.between("line4", "line5"):
-                if self.cuing_task_type == "gaze":
-                    fill()
-                    gaze_line_stimuli()
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                    flip()
-                else:
-                    if self.cuing_task_type == "exogenous":
-                        fill()
-                        exo_line_stimuli()
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        flip()
-
-            while self.evm.between("line5", "line6"):
-                if self.cuing_task_type == "gaze":
-                    fill()
-                    gaze_line_stimuli()
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                    flip()
-                else:
-                    if self.cuing_task_type == "exogenous":
-                        fill()
-                        exo_line_stimuli()
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                        flip()
-
-            while self.evm.between("line6", "line7"):
-                if self.cuing_task_type == "gaze":
-                    fill()
-                    gaze_line_stimuli()
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                    flip()
-                else:
-                    if self.cuing_task_type == "exogenous":
-                        fill()
-                        exo_line_stimuli()
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                        flip()
-
-            while self.evm.between("line7", "target_offset"):
-                if self.cuing_task_type == "gaze":
-                    fill()
-                    gaze_line_stimuli()
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                    blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                    blit(self.longer_moving_line, registration = 5, location = self.real_line_1_position)
-                    flip()
-                else:
-                    if self.cuing_task_type == "exogenous":
-                        fill()
-                        exo_line_stimuli()
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_8_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_7_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_6_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_5_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_4_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_3_position)
-                        blit(self.shorter_moving_line, registration = 5, location = self.real_line_2_position)
-                        blit(self.longer_moving_line, registration = 5, location = self.real_line_1_position)
-                        flip()
-
 
     #######################################################################################
     # FINALIZING THE BASIC CUING DETECTION TASK
@@ -1248,13 +1393,18 @@ class gaze_ilm(klibs.Experiment):
                 events.append([events[-1][0] + 400, "cue_onset"]) # Add in the cue
                 events.append([events[-1][0] + 50, "cue_offset"]) # Remove the cue
                 events.append([events[-1][0] + 50, "target_onset"]) # Add in the target
-                events.append([events[-1][0] + 4, "line1"]) # Start adding the real moving line segments
-                events.append([events[-1][0] + 4, "line2"])
-                events.append([events[-1][0] + 4, "line3"])
-                events.append([events[-1][0] + 4, "line4"])
-                events.append([events[-1][0] + 4, "line5"])
-                events.append([events[-1][0] + 4, "line6"])
-                events.append([events[-1][0] + 4, "line7"])
+                # events.append([events[-1][0] + 4, "line1"]) # Line segments for 260 Hz monitor
+                # events.append([events[-1][0] + 4, "line2"])
+                # events.append([events[-1][0] + 4, "line3"])
+                # events.append([events[-1][0] + 4, "line4"])
+                # events.append([events[-1][0] + 4, "line5"])
+                # events.append([events[-1][0] + 4, "line6"])
+                # events.append([events[-1][0] + 4, "line7"])
+                events.append([events[-1][0] + 8.33, "line1"]) # Line segments for 120 Hz monitor
+                events.append([events[-1][0] + 8.33, "line2"])
+                events.append([events[-1][0] + 8.33, "line3"])
+                events.append([events[-1][0] + 8.33, "line4"])
+
                 events.append([events[-1][0] + 1004, "target_offset"]) # Remove the line in line motion trials
                 
         for e in events:
