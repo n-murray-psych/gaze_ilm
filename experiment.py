@@ -1414,6 +1414,7 @@ class gaze_ilm(klibs.Experiment):
 
         # If the first trial of the block, display message to start.
         if P.run_practice_blocks and P.block_number == 1 and P.trial_number == 1:
+            fill()
             self.trial_start_stimuli()
             flip()
             blit(self.practice_block_message, registration = 5, location = self.block_start_message_position)
@@ -1421,6 +1422,7 @@ class gaze_ilm(klibs.Experiment):
             any_key()
         
         if P.block_number == 2 and P.trial_number == 1:
+            fill()
             self.trial_start_stimuli()
             flip()
             blit(self.block_start_message, registration = 5, location = self.block_start_message_position)
