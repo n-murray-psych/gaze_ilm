@@ -1414,7 +1414,6 @@ class gaze_ilm(klibs.Experiment):
 
         # If the first trial of the block, display message to start.
         if P.run_practice_blocks and P.block_number == 1 and P.trial_number == 1:
-            fill()
             self.trial_start_stimuli()
             flip()
             blit(self.practice_block_message, registration = 5, location = self.block_start_message_position)
@@ -1422,7 +1421,6 @@ class gaze_ilm(klibs.Experiment):
             any_key()
         
         if P.block_number == 2 and P.trial_number == 1:
-            fill()
             self.trial_start_stimuli()
             flip()
             blit(self.block_start_message, registration = 5, location = self.block_start_message_position)
@@ -1449,14 +1447,12 @@ class gaze_ilm(klibs.Experiment):
         if self.task_requirement == "detection":
             flip()
             self.rc.collect()
-            flip()
             rt = self.rc.keypress_listener.response(False, True)
             response = self.rc.keypress_listener.response(True, False)
         else:
             fill()
             blit(self.scale, 5, self.scale_loc)
             blit(self.motion_rating_message, registration = 5, location = self.motion_rating_message_position)
-            flip()
             response, rt = self.scale_listener.collect()
             print(response, rt)
 
