@@ -93,7 +93,7 @@ class gaze_ilm(klibs.Experiment):
         self.target = kld.Circle(diameter = targetsize, stroke = targetstroke, fill = WHITE)
 
         # Static line stimuli
-        linelength = deg_to_px(4.45)
+        linelength = deg_to_px(4.43)
         linewidth = deg_to_px(.57)
         self.static_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
         self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
@@ -116,8 +116,8 @@ class gaze_ilm(klibs.Experiment):
 
         self.moving_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
         self.moving_line_1_position = (P.screen_c[0]-deg_to_px(1.66125), P.screen_c[1]-probe_vertical_offset)
-        self.moving_line_2_position = (P.screen_c[0]-deg_to_px(.55375), P.screen_c[1]-probe_vertical_offset)
-        self.moving_line_3_position = (P.screen_c[0]+deg_to_px(.55375), P.screen_c[1]-probe_vertical_offset)
+        self.moving_line_2_position = (P.screen_c[0]-deg_to_px(.57), P.screen_c[1]-probe_vertical_offset)
+        self.moving_line_3_position = (P.screen_c[0]+deg_to_px(.57), P.screen_c[1]-probe_vertical_offset)
         self.moving_line_4_position = (P.screen_c[0]+deg_to_px(1.66125), P.screen_c[1]-probe_vertical_offset)
 
         # Line motion rating scale stimuli
