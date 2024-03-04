@@ -1435,6 +1435,7 @@ class gaze_ilm(klibs.Experiment):
             any_key()
 
         if P.trial_number > 1:
+            fill()
             self.trial_start_stimuli()
             flip()
             blit(self.next_trial_message, registration = 5, location = self.next_trial_message_posiition)
