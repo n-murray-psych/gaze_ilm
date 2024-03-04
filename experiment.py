@@ -1447,6 +1447,7 @@ class gaze_ilm(klibs.Experiment):
         if self.task_requirement == "detection":
             flip()
             self.rc.collect()
+            flip()
             rt = self.rc.keypress_listener.response(False, True)
             response = self.rc.keypress_listener.response(True, False)
         else:
