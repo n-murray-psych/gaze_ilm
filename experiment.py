@@ -93,7 +93,7 @@ class gaze_ilm(klibs.Experiment):
         self.target = kld.Circle(diameter = targetsize, stroke = targetstroke, fill = WHITE)
 
         # Static line stimuli
-        linelength = deg_to_px(4.43)
+        linelength = deg_to_px(4.45)
         linewidth = deg_to_px(.57)
         self.static_line = kld.Line(length = linelength, color = WHITE, thickness = 3, rotation = 90)
         self.static_line_position = (P.screen_c[0], P.screen_c[1]-probe_vertical_offset)
@@ -1435,7 +1435,6 @@ class gaze_ilm(klibs.Experiment):
             any_key()
 
         if P.trial_number > 1:
-            fill()
             self.trial_start_stimuli()
             flip()
             blit(self.next_trial_message, registration = 5, location = self.next_trial_message_posiition)
