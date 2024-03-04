@@ -1351,10 +1351,12 @@ class gaze_ilm(klibs.Experiment):
         if self.cuing_task_type == "gaze":
             self.gaze_cuing_task()
             self.gaze_trial_pre_cue_stimuli()
+            flip()
         else:
             if self.cuing_task_type == "exogenous":
                 self.exo_cuing_task()
                 self.exo_trial_pre_cue_stimuli()
+                flip()
 
     #######################################################################################
 
